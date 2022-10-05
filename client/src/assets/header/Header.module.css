@@ -1,0 +1,9 @@
+.linkTag > * {
+  margin: 12px;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  margin-right: 17px;
+}
+.link:hover {
+  border-bottom: 1px solid black;
+}
