@@ -1,6 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
-import styles from "./InstaImg.module.css";
 import data from "./InstaImgData.json";
 import InstaImgCard from "./InstaImgCard";
 
@@ -9,9 +8,8 @@ const InstaImg = () => {
   return (
     <div>
       <Grid
-        className={styles.wrapper}
+        m={"auto"}
         w={["210px", "420px", "630px", "1050px"]}
-        // templateRows="repeat(3, 1fr)"
         templateColumns={[
           "repeat(1,1fr)",
           "repeat(2,1fr)",

@@ -1,19 +1,15 @@
 .wrapper {
   width: 100%;
   margin: auto;
-  /* height: 460px; */
   padding-top: 36px;
   padding-bottom: 40px;
   box-sizing: border-box;
-  /* border: 1px solid rgb(213, 112, 112); */
 }
 
 .bottom {
-  /* border: 1px solid black; */
   justify-content: space-between;
   width: 77%;
   margin: auto;
-  /* padding-left: 15px; */
 }
 .heading {
   font-size: 18px;
