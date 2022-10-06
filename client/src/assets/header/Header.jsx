@@ -3,8 +3,6 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   HStack,
   Icon,
@@ -21,7 +19,6 @@ import { NavLink } from "react-router-dom";
 import SearchDrawer from "./Drawer";
 import styles from "./Header.module.css";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useState } from "react";
 
 const Links = [
   {
@@ -29,27 +26,27 @@ const Links = [
     title: "Home",
   },
   {
-    to: "/collections/new",
+    to: "/collections/New",
     title: "New",
   },
   {
-    to: "/collections/all-products",
+    to: "/collections/All-Products",
     title: "Shop All",
   },
   {
-    to: "/collections/earrings",
+    to: "/collections/Earrings",
     title: "Earrings",
   },
   {
-    to: "/collections/necklaces",
+    to: "/collections/Necklaces",
     title: "Necklaces",
   },
   {
-    to: "/collections/bracelets",
+    to: "/collections/Bracelets",
     title: "Bracelets",
   },
   {
-    to: "/collections/rings",
+    to: "/collections/Rings",
     title: "Rings",
   },
   {
@@ -110,7 +107,7 @@ function Menu() {
                 style={({ isActive }) =>
                   isActive ? crumActiveStyle : crumBaseStyle
                 }
-                exact
+                exact={true}
                 to={item.to}
                 key={item.to}
               >
@@ -158,7 +155,7 @@ const Header = () => {
                 <NavLink
                   className={styles.link}
                   style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-                  exact
+                  exact={true}
                   to={item.to}
                   key={item.to}
                 >

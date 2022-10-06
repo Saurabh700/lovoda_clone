@@ -83,6 +83,9 @@
 .icon {
   margin: 10px;
 }
+.icon:hover {
+  cursor: pointer;
+}
 .italic {
   font-style: italic;
   font-size: 16px;

@@ -1,10 +1,8 @@
-import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
 import InstaImg from "../../assets/allAboutEffects/InstaImg/InstaImg";
-import Footer1 from "../../assets/footer/Footer1";
-import Footer2 from "../../assets/footer/Footer2";
 import styles from "./home.module.css";
 import data from "./ImgCrate.json";
 
@@ -22,6 +20,7 @@ const Home = () => {
           </div>
         </Box>
       </div>
+
       <Grid
         w={["269px", "583px", "540px", "807px", "1076px"]}
         m="auto"
@@ -39,15 +38,31 @@ const Home = () => {
           <ImgCrate key={item.id} {...item} />
         ))}
       </Grid>
+
       <Box>
-        <h1 className={styles.shopfeed}>SHOP THE FEED</h1>
-        <p className={styles.tag}>Tag us on instagram @LavodaShop or #Lavoda</p>
-        <div className={styles.hoverComponent}>
+        <Text
+          mt={"100px"}
+          fontSize={"40px"}
+          fontWeight={"400"}
+          letterSpacing={"0.6px"}
+          lineHeight={"52px"}
+        >
+          SHOP THE FEED
+        </Text>
+        <Text
+          fontSize={"16px"}
+          fontWeight="400"
+          letterSpacing={"0.6px"}
+          lineHeight="28px"
+          mt={"20px"}
+          mb={"50px"}
+        >
+          Tag us on instagram @LavodaShop or #Lavoda
+        </Text>
+        <Box m={"auto"} mb={"150px"}>
           <InstaImg />
-        </div>
+        </Box>
       </Box>
-      <Footer1 />
-      <Footer2 />
     </div>
   );
 };

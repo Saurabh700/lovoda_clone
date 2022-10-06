@@ -1,12 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "../Pages/Home/Home";
+import Collection from "../components/category/Collection";
+import Home from "../components/home/Home";
 
 const AllRoutes = () => {
   return (
     <div>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route exact={true} path="/home" element={<Home />} />
+        <Route path="/collections/:cat" element={<Collection />} />
       </Routes>
     </div>
   );
