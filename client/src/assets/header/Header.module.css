@@ -7,3 +7,21 @@
 .link:hover {
   border-bottom: 1px solid black;
 }
+
+.crumlink {
+  display: block;
+  padding: 8px;
+  margin: 2px;
+  font-size: 13px;
+}
+/* 
+<Box>
+        <Flex justifyContent={"center"}>
+          <IconButton
+            onClick={onOpen}
+            pl={3}
+            display={["block", "block", "Block", "none"]}
+            icon={<GiHamburgerMenu />}
+          />
+        </Flex>
+      </Box> */
