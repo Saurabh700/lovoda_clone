@@ -11,17 +11,17 @@
   /* border: 1px solid black; */
   box-sizing: border-box;
 }
-.banner > h1 {
+.banner > :nth-child(1) {
   color: rgb(255, 255, 255);
-  margin-top: 450px;
+  /* margin-top: 450px; */
   font-size: 52px;
   font-weight: 500;
   letter-spacing: 0.6px;
 }
 .banner > h2 {
   letter-spacing: 0.6px;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
   color: white;
   margin-top: 17px;
 }
@@ -36,6 +36,12 @@
   margin: auto;
   margin-top: 20px;
 }
+/* .banner {
+  background-size: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+    url(https://cdn.shopify.com/s/files/1/0627/7388/7215/files/13122-2_3000x.jpg?v=1645120932);
+  background-repeat: no-repeat;
+} */
 .banner {
   background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
     url(https://cdn.shopify.com/s/files/1/0627/7388/7215/files/13122-2_3000x.jpg?v=1645120932)
