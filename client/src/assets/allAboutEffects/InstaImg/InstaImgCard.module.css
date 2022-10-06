@@ -11,8 +11,9 @@
   overflow: hidden;
   position: relative;
 }
-.img {
-  height: 400px;
+.image {
+  height: 100%;
+  width: 100%;
   transition: all 1s linear;
 }
 .figcaption {

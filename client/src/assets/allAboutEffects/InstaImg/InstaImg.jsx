@@ -10,11 +10,17 @@ const InstaImg = () => {
     <div>
       <Grid
         className={styles.wrapper}
-        templateRows="repeat(3, 1fr)"
-        templateColumns="repeat(5, 1fr)"
+        w={["210px", "420px", "630px", "1050px"]}
+        // templateRows="repeat(3, 1fr)"
+        templateColumns={[
+          "repeat(1,1fr)",
+          "repeat(2,1fr)",
+          "repeat(3,1fr)",
+          "repeat(5, 1fr)",
+        ]}
         gap={3}
       >
-        <GridItem rowSpan={2} colSpan={2} bg="teal">
+        <GridItem rowSpan={2} colSpan={2}>
           {<InstaImgCard item={data[0]} />}
         </GridItem>
         <GridItem colSpan={1} bg="tomato">

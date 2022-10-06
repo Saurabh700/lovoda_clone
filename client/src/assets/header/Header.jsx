@@ -144,7 +144,7 @@ const Header = () => {
         >
           <Menu />
           {/* p "20 50" */}
-          <HStack ml={[5, 10, 0, -50, -200]}>
+          <HStack ml={[55, 10, 115, -50, -200]}>
             <Image
               mr={4}
               src="https://cdn.shopify.com/s/files/1/0627/7388/7215/files/04122019_logo2_90x.png?v=1645644264"

@@ -3,6 +3,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
 import InstaImg from "../../assets/allAboutEffects/InstaImg/InstaImg";
+import Footer1 from "../../assets/footer/Footer1";
+import Footer2 from "../../assets/footer/Footer2";
 import styles from "./home.module.css";
 import data from "./ImgCrate.json";
 
@@ -10,10 +12,8 @@ const Home = () => {
   return (
     <div>
       <div>
-        <Box className={styles.banner} pb={10}>
-          <Text mt={["350px", "350px", "350px", "350px", "350px"]}>
-            NEW NEW NEW
-          </Text>
+        <Box justifyContent={"end"} className={styles.banner} pb={10}>
+          <Text>NEW NEW NEW</Text>
           <h2>Check out the new beauties!</h2>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <NavLink to="/collections/allproducts">
@@ -46,6 +46,8 @@ const Home = () => {
           <InstaImg />
         </div>
       </Box>
+      <Footer1 />
+      <Footer2 />
     </div>
   );
 };
