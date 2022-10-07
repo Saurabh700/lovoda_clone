@@ -2,6 +2,7 @@ import {
   Box,
   Checkbox,
   Flex,
+  Grid,
   Icon,
   Input,
   Link,
@@ -10,44 +11,82 @@ import {
   MenuDivider,
   MenuList,
   Select,
+  Spinner,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Collection.module.css";
 import { AiOutlineDown } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsCurrencyDollar } from "react-icons/bs";
-import data from "./CollectionData.json";
-import { NavLink, useParams } from "react-router-dom";
-import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getJewelry } from "../../redux/appReducer/action";
+import PaginatedItems from "./Paginate";
+import {
+  BEST_SELLING,
+  FEATURED,
+  SORT_ALPHABETICALLY_A_Z,
+  SORT_ALPHABETICALLY_Z_A,
+  SORT_DATE_NEW_TO_OLD,
+  SORT_DATE_OLD_TO_NEW,
+  SORT_PRICE_HTL,
+  SORT_PRICE_LTH,
+} from "../../redux/appReducer/actionTypes";
+import { useState } from "react";
+import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
 
 const Collection = () => {
-  const [prodData, setProdData] = useState(data);
+  const dispatch = useDispatch();
+  const prod = useSelector((store) => store.AppReducer.jewelryItems);
+
+  const [jewelryItems, setJewelryItems] = useState(prod);
+
+  // const [count, setCount] = useState(0);
+  console.log(jewelryItems, "old method");
+
   const handleChange = (e) => {
     let val = e.target.value;
-    if (val === "lth") {
-      setProdData([...data.sort((a, b) => a.price - b.price)]);
+    // setCount((prev) => prev + 1);
+    // console.log(val, "selected val");
+    // console.log(jewelryItems, "final check");
+    switch (val) {
+      case "lth":
+        setJewelryItems([...prod.sort((a, b) => a.cost - b.cost)]);
+      case "htl":
+        setJewelryItems([...prod.sort((a, b) => b.cost - a.cost)]);
+      case "a2z":
+        return dispatch({ type: SORT_PRICE_LTH });
+      default:
+        return dispatch({ type: SORT_PRICE_HTL });
     }
-    if (val === "htl") {
-      setProdData([...data.sort((a, b) => b.price - a.price)]);
-    }
-    if (val === "a2z") {
-      setProdData([...data.sort((a, b) => a.id - b.id)]);
-    }
-    if (val === "z2a") {
-      setProdData([...data.sort((a, b) => b.id - a.id)]);
-    }
+
+    //   if (val === "lth") {
+    //     return dispatch({ type: SORT_PRICE_HTL });
+    //   } else if (val === "htl") {
+    //     return dispatch({ type: SORT_PRICE_LTH });
+    //   } else if (val === "a2z") {
+    //     return dispatch({ type: SORT_ALPHABETICALLY_A_Z });
+    //   } else if (val === "z2a") {
+    //     return dispatch({ type: SORT_ALPHABETICALLY_Z_A });
+    //   } else if (val === "o2n") {
+    //     return dispatch({ type: SORT_DATE_OLD_TO_NEW });
+    //   } else if (val === "n2o") {
+    //     return dispatch({ type: SORT_DATE_NEW_TO_OLD });
+    //   } else if (val === "bestSelling") {
+    //     return dispatch({ type: BEST_SELLING });
+    //   } else if (val === "featured") {
+    //     return dispatch({ type: FEATURED });
+    //   }
   };
+
   let params = useParams();
   console.log(params);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/collections/${params.cat}`)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  }, [params]);
+    dispatch(getJewelry(params.cat));
+  }, [params, jewelryItems]);
+  console.log(jewelryItems, "incollections");
 
   return (
     <div className={styles.wrapper}>
@@ -66,7 +105,7 @@ const Collection = () => {
                 w={3}
               />
             </MenuButton>
-            <MenuList>
+            <MenuList zIndex={2}>
               <Flex pt={2} pl={5} w={340}>
                 <div>The highest price is $95.00</div>
                 <div>
@@ -121,7 +160,7 @@ const Collection = () => {
                 w={3}
               />
             </MenuButton>
-            <MenuList>
+            <MenuList zIndex={2}>
               <Flex justifyContent="space-between" pt={2} pl={5} w={300} pr={0}>
                 <div>0 Selected</div>
                 <div>
@@ -158,44 +197,25 @@ const Collection = () => {
         </div>
       </div>
 
-      {/* -------------------- */}
-
-      {/* <Box className={styles.grid}>
-        {data.map((item) => (
-          <SwitchBox key={item.id} {...item} />
+      {/* <PaginatedItems itemsPerPage={4} /> */}
+      <Grid
+        w={["269px", "583px", "540px", "807px", "1076px"]}
+        m="auto"
+        mt={8}
+        mb={20}
+        templateColumns={[
+          "repeat(1,1fr)",
+          "repeat(2,1fr)",
+          "repeat(2,1fr)",
+          "repeat(3,1fr)",
+          "repeat(4, 1fr)",
+        ]}
+        gap={1}
+      >
+        {jewelryItems?.map((item) => (
+          <ImgCrate key={item.id} {...item} />
         ))}
-      </Box> */}
-      <Box className={styles.grid}>
-        {prodData.map((item) => (
-          <div key={item.id}>
-            <NavLink to={`/collections/earrings/${item.id}`}>
-              <ImgCrate key={item.id} {...item} />
-            </NavLink>
-          </div>
-        ))}
-      </Box>
-      <Flex justifyContent="center">
-        <Link p={5}>1</Link>
-        <Link
-          onClick={() =>
-            setProdData([...data.sort((a, b) => a.price - b.price)])
-          }
-          p={5}
-        >
-          2
-        </Link>
-        <Link
-          onClick={() =>
-            setProdData([...data.sort((a, b) => b.price - a.price)])
-          }
-          p={5}
-        >
-          3
-        </Link>
-        <div style={{ marginTop: "20px", marginLeft: "5px" }}>...</div>
-        <Link p={5}>23</Link>
-      </Flex>
-      {/* <Wishlist /> */}
+      </Grid>
     </div>
   );
 };

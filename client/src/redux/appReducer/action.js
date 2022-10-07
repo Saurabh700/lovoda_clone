@@ -1,47 +1,48 @@
 import axios from "axios";
+import { loadData } from "../../utils/localStorage";
 import {
-  GET_MUSIC_RECORD_FAILURE,
-  GET_MUSIC_RECORD_REQUEST,
-  GET_MUSIC_RECORD_SUCCESS,
-  UPDATE_MUSIC_RECORD_FAILURE,
-  UPDATE_MUSIC_RECORD_REQUEST,
-  UPDATE_MUSIC_RECORD_SUCCESS,
+  GET_JEWELRY_FAILURE,
+  GET_JEWELRY_REQUEST,
+  GET_JEWELRY_SUCCESS,
 } from "./actionTypes";
 
-// METHOD 1
-// const getMusicRecord = (dispatch) => {
-//   dispatch({ type: GET_MUSIC_RECORD_REQUEST });
-//   axios
-//     .get("http://localhost:8080/albums")
-//     .then((res) => {
-//       return dispatch({
-//         type: GET_MUSIC_RECORD_SUCCESS,
-//         payload: res.data,
-//       });
-//     })
-//     .catch((e) => dispatch({ type: GET_MUSIC_RECORD_FAILURE }));
-// };
+const getJewelryRequest = () => {
+  return {
+    type: GET_JEWELRY_REQUEST,
+  };
+};
+const getJewelrySuccess = (payload) => {
+  return {
+    type: GET_JEWELRY_SUCCESS,
+    payload,
+  };
+};
+const getJewelryFailure = () => {
+  return {
+    type: GET_JEWELRY_FAILURE,
+  };
+};
 
-// METHOD 2
-const getMusicRecord = (queryParams) => (dispatch) => {
-  dispatch({ type: GET_MUSIC_RECORD_REQUEST });
+const getHome = (dispatch) => {
+  dispatch(getJewelryRequest());
+  // const path = loadData("path");
   return axios
-    .get("http://localhost:8080/albums", queryParams)
+    .get(`http://localhost:8080/home`)
     .then((res) => {
-      return dispatch({
-        type: GET_MUSIC_RECORD_SUCCESS,
-        payload: res.data,
-      });
+      // console.log(res.data, "in action");
+      return dispatch(getJewelrySuccess(res.data.products));
     })
-    .catch((e) => dispatch({ type: GET_MUSIC_RECORD_FAILURE }));
+    .catch((e) => dispatch(getJewelryFailure()));
 };
 
-const updateMusicRecord = (id, payload) => (dispatch) => {
-  dispatch({ type: UPDATE_MUSIC_RECORD_REQUEST });
+const getJewelry = (path) => (dispatch) => {
+  dispatch(getJewelryRequest());
   return axios
-    .patch(`http://localhost:8080/albums/${id}`, payload)
-    .then((r) => dispatch({ type: UPDATE_MUSIC_RECORD_SUCCESS }))
-    .catch((err) => dispatch({ type: UPDATE_MUSIC_RECORD_FAILURE }));
+    .get(`http://localhost:8080/collections/${path}`)
+    .then((res) => {
+      return dispatch(getJewelrySuccess(res.data.products));
+    })
+    .catch((e) => dispatch(getJewelryFailure()));
 };
 
-export { getMusicRecord, updateMusicRecord };
+export { getJewelry, getHome };

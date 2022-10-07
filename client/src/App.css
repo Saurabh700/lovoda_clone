@@ -28,6 +28,33 @@
   color: white;
 }
 
+.pagination {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+  font-size: 15px;
+  gap: 5px;
+}
+
+.pagination > * {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: 400;
+}
+
+/* .pagination > *:hover {
+  border-bottom: 1px solid black;
+} */
+
+.pagination .active {
+  border-bottom: 1px solid black;
+  font-weight: 500;
+  font-size: 19px;
+}
+
 .App-link {
   color: #61dafb;
 }

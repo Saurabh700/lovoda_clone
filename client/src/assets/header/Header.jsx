@@ -19,6 +19,7 @@ import { NavLink } from "react-router-dom";
 import SearchDrawer from "./Drawer";
 import styles from "./Header.module.css";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { saveData } from "../../utils/localStorage";
 
 const Links = [
   {
@@ -107,7 +108,6 @@ function Menu() {
                 style={({ isActive }) =>
                   isActive ? crumActiveStyle : crumBaseStyle
                 }
-                exact={true}
                 to={item.to}
                 key={item.to}
               >
@@ -155,9 +155,9 @@ const Header = () => {
                 <NavLink
                   className={styles.link}
                   style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-                  exact={true}
                   to={item.to}
                   key={item.to}
+                  onClick={() => saveData("path", item.to)}
                 >
                   {item.title}
                 </NavLink>

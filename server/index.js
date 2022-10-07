@@ -15,7 +15,7 @@ const { account } = require("./allRoutes/account.route");
 const { cart } = require("./allRoutes/cart.route");
 const { addproducts } = require("./allRoutes/addproducts.route");
 
-app.use("/", home);
+app.use("/home", home);
 app.use("/collections", collections);
 app.use("/account", account);
 app.use("/cart", cart);

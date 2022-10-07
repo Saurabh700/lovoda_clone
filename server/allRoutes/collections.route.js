@@ -4,7 +4,9 @@ const { JewelryModel } = require("../models/allProducts.model");
 const collections = Router();
 
 collections.get("/New", async (req, res) => {
+  console.log("getting req");
   const products = await JewelryModel.find();
+  console.log(products);
   res.send({ msg: "collections", products });
 });
 

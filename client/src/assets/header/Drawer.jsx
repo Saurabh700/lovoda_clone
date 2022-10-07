@@ -9,13 +9,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 function SearchDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
@@ -23,7 +22,6 @@ function SearchDrawer() {
     <>
       <Icon
         onClick={onOpen}
-        ref={btnRef}
         _hover={{ transform: "scale(1.2)" }}
         color="rgba(18, 18, 18, 0.75)"
         as={AiOutlineSearch}
@@ -32,12 +30,7 @@ function SearchDrawer() {
         m={[1, 3]}
         mt={3}
       />
-      <Drawer
-        isOpen={isOpen}
-        placement="top"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
+      <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent h="150px">
           <DrawerCloseButton border="none" mt={-2} />
@@ -61,7 +54,7 @@ function SearchDrawer() {
               borderRadius="0"
               border={"1px solid crimson"}
               onKeyDownCapture={(e) => {
-                console.log(e, "btn");
+                // console.log(e, "btn");
                 if (e.key === "Enter") {
                   navigate(`/collections/${query}`);
                 }

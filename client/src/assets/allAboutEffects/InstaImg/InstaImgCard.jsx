@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./InstaImgCard.module.css";
 
 const InstaImgCard = ({ item }) => {
-  console.log(item.image1, "got it");
   return (
     <div>
       <div className={styles.wrapper}>

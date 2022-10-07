@@ -4,7 +4,7 @@ import data from "./InstaImgData.json";
 import InstaImgCard from "./InstaImgCard";
 
 const InstaImg = () => {
-  console.log(data, "here it is");
+  // console.log(data, "here it is");
   return (
     <div>
       <Grid

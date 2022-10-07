@@ -3,6 +3,7 @@ import { Icon, Link } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiFillHeart } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 
 const ImgCrate = (item) => {
   const [toggle, setToggle] = useState(false);
@@ -31,16 +32,26 @@ const ImgCrate = (item) => {
         )}
       </div>
       <div key={item.id} className={styles.wrapper}>
-        <figure className={styles.figure}>
-          <div className={styles.hoverAnimation}>
-            <img src={item.img2} className={styles.imgBack} alt="img1" />
-            <img src={item.img1} className={styles.imgFront} alt="img2" />
-          </div>
-          <figcaption className={styles.figcaption}>
-            <Link className={styles.link}>{item.name}</Link>
-            <p>${item.price}</p>
-          </figcaption>
-        </figure>
+        <NavLink to={`/collections/product/${item._id}`}>
+          <figure className={styles.figure}>
+            <div className={styles.hoverAnimation}>
+              <img
+                src={item.flash}
+                className={styles.imgBack}
+                alt="frontImage"
+              />
+              <img
+                src={item.front}
+                className={styles.imgFront}
+                alt="backImage"
+              />
+            </div>
+            <figcaption className={styles.figcaption}>
+              <Link className={styles.link}>{item.title}</Link>
+              <p>${item.cost}</p>
+            </figcaption>
+          </figure>
+        </NavLink>
       </div>
     </div>
   );

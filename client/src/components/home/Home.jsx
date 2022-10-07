@@ -1,12 +1,21 @@
 import { Box, Grid, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
 import InstaImg from "../../assets/allAboutEffects/InstaImg/InstaImg";
 import styles from "./home.module.css";
-import data from "./ImgCrate.json";
+import { getHome } from "../../redux/appReducer/action";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const jewelryItems = useSelector((store) => store.AppReducer.jewelryItems);
+
+  useEffect(() => {
+    dispatch(getHome);
+  }, []);
+
+  console.log(jewelryItems);
   return (
     <div>
       <div>
@@ -34,7 +43,7 @@ const Home = () => {
         ]}
         gap={1}
       >
-        {data.map((item) => (
+        {jewelryItems?.map((item) => (
           <ImgCrate key={item.id} {...item} />
         ))}
       </Grid>
