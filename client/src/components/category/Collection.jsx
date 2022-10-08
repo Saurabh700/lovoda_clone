@@ -14,33 +14,24 @@ import {
   Select,
   Spinner,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Collection.module.css";
-import { AiOutlineDown } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getJewelry } from "../../redux/appReducer/action";
 import PaginatedItems from "./Paginate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { FILTER_COST } from "../../redux/appReducer/actionTypes";
 
 const Collection = () => {
   const dispatch = useDispatch();
+  const [bear, setBear] = useState(0);
+  const [bull, setBull] = useState(0);
 
-  // const handleChange = (e) => {
-  //   let val = e.target.value;
-  //   switch (val) {
-  //     case "lth":
-  //       return dispatch({ type: SORT_PRICE_LTH });
-  //     case "htl":
-  //       return dispatch({ type: SORT_PRICE_LTH });
-  //     case "a2z":
-  //       return dispatch({ type: SORT_PRICE_LTH });
-  //     default:
-  //       return dispatch({ type: SORT_PRICE_HTL });
-  //   }
-  // };
+  const { jewelryItems } = useSelector((store) => store.AppReducer);
 
   let params = useParams();
   console.log(params);
@@ -48,6 +39,16 @@ const Collection = () => {
   useEffect(() => {
     dispatch(getJewelry(params.cat));
   }, [params]);
+
+  const handlePriceReset = () => {
+    dispatch(getJewelry(params.cat));
+    setBear("");
+    setBull("");
+  };
+
+  const handlePriceSearch = () => {
+    return dispatch({ type: FILTER_COST, payload: [bear, bull] });
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -67,7 +68,7 @@ const Collection = () => {
               />
             </MenuButton>
             <MenuList zIndex={2}>
-              <Flex pt={2} pl={5} w={340}>
+              <Flex pt={2} pl={5}>
                 <div>The highest price is $95.00</div>
                 <div>
                   <Icon
@@ -82,7 +83,7 @@ const Collection = () => {
                   />
                 </div>
                 <div>
-                  <Link>Reset</Link>
+                  <Link onClick={handlePriceReset}>Reset</Link>
                 </div>
               </Flex>
               <MenuDivider />
@@ -95,7 +96,13 @@ const Collection = () => {
                   h={4}
                   w={4}
                 />
-                <Input ml={3} mr={10} w={120} />
+                <Input
+                  ml={2}
+                  w={120}
+                  mr={8}
+                  value={bear}
+                  onChange={(e) => setBear(e.target.value)}
+                />
                 <Icon
                   className={styles.icon}
                   as={BsCurrencyDollar}
@@ -103,7 +110,19 @@ const Collection = () => {
                   h={4}
                   w={4}
                 />
-                <Input ml={3} mr={10} w={120} />
+                <Input
+                  ml={2}
+                  w={120}
+                  value={bull}
+                  onChange={(e) => setBull(e.target.value)}
+                />
+                <Flex ml={5} mt={2}>
+                  <AiOutlineSearch
+                    mt={2}
+                    size={20}
+                    onClick={handlePriceSearch}
+                  />
+                </Flex>
               </Flex>
             </MenuList>
           </Menu>
@@ -131,50 +150,20 @@ const Collection = () => {
               <MenuDivider />
               <Flex p={3}>
                 <Checkbox pr={2} />
-                In stock(324)
+                In stock ({jewelryItems.length})
               </Flex>
               <Flex p={3}>
                 <Checkbox pr={2} />
-                Out of stock(2)
+                Out of stock (0)
               </Flex>
             </MenuList>
           </Menu>
         </div>
         <div className={styles.align}>
-          {/* <p>Sort by:</p>
-          <Select onChange={handleChange} mt={0} w={150} fontSize="14px">
-            <option value="htl">Featured</option>
-            <option value="lth">Best selling</option>
-            <option value="a2z">Alphabetically, A-Z</option>
-            <option value="z2a">Alphabetically, Z-A</option>
-            <option value="lth">Price, low to high</option>
-            <option value="htl">Price, high to low</option>
-            <option value="a2z">Date, old to new</option>
-            <option value="z2a">Date, new to old</option>
-          </Select> */}
-          <p>374 products</p>
+          <p>{jewelryItems.length} products</p>
         </div>
       </div>
-
       <PaginatedItems itemsPerPage={4} />
-      {/* <Grid
-        w={["269px", "583px", "540px", "807px", "1076px"]}
-        m="auto"
-        mt={8}
-        mb={20}
-        templateColumns={[
-          "repeat(1,1fr)",
-          "repeat(2,1fr)",
-          "repeat(2,1fr)",
-          "repeat(3,1fr)",
-          "repeat(4, 1fr)",
-        ]}
-        gap={1}
-      >
-        {newdata?.map((item) => (
-          <ImgCrate key={item._id} {...item} />
-        ))}
-      </Grid> */}
     </div>
   );
 };

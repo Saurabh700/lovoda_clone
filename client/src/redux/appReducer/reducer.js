@@ -1,4 +1,5 @@
 import {
+  FILTER_COST,
   GET_JEWELRY_FAILURE,
   GET_JEWELRY_REQUEST,
   GET_JEWELRY_SUCCESS,
@@ -61,6 +62,14 @@ const reducer = (oldState = initState, action) => {
         ...oldState,
         jewelryItems: oldState.jewelryItems.sort((a, b) =>
           b.title.localeCompare(a.title)
+        ),
+      };
+    case FILTER_COST:
+      return {
+        ...oldState,
+        jewelryItems: oldState.jewelryItems.filter(
+          (item) =>
+            item.cost >= action.payload[0] && item.cost <= action.payload[1]
         ),
       };
     default:

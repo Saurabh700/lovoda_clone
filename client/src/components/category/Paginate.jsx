@@ -9,19 +9,14 @@ import {
   MenuList,
   Select,
   Spinner,
+  Switch,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
-import {
-  nameAtoZ,
-  nameZtoA,
-  sortHighToLow,
-  sortLowToHigh,
-} from "../../redux/appReducer/action";
 import {
   NAME_A_TO_Z,
   NAME_Z_TO_A,
@@ -34,59 +29,54 @@ function PaginatedItems() {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [sortBy, setSortBy] = useState("Please select type");
+  const [usd, setUsd] = useState(false);
 
   const dispatch = useDispatch();
 
   const { jewelryItems, isLoading, isError } = useSelector(
-    (store) => store.AppReducer
+    (store) => store.AppReducer,
+    shallowEqual
   );
 
-  console.log(jewelryItems, "in paginate");
-
-  // const handleChange = (e) => {
-  //   let val = e.target.value;
-
-  //   switch (val) {
-  //     case "lth":
-  //       return dispatch(sortLowToHigh());
-  //     case "htl":
-  //       return dispatch(sortHighToLow());
-  //     case "a2z":
-  //       return dispatch(nameAtoZ());
-  //     case "z2a":
-  //       return dispatch(nameZtoA());
-  //     default:
-  //       console.log("default");
-  //   }
-  // };
+  console.log(jewelryItems);
 
   const handleChange = ({ target: { textContent } }) => {
     console.log(textContent, "textContent");
+    setSortBy(textContent);
 
     switch (textContent) {
       case "Price: Low-High":
-        // return dispatch(sortLowToHigh());
         return dispatch({ type: SORT_LOW_TO_HIGH });
       case "Price: High-Low":
-        // return dispatch(sortHighToLow());
         return dispatch({ type: SORT_HIGH_TO_LOW });
       case "Name: A-Z":
-        // return dispatch(nameAtoZ());
         return dispatch({ type: NAME_A_TO_Z });
       case "Name: Z-A":
-        // return dispatch(nameZtoA());
         return dispatch({ type: NAME_Z_TO_A });
       default:
         console.log("default");
     }
   };
 
+  const toggleCurrency = () => {
+    setUsd(!usd);
+    if (!usd) {
+      jewelryItems.forEach((item) => {
+        item.cost = (Number(item.cost) * 82.83).toFixed(2);
+      });
+    } else if (usd) {
+      jewelryItems.forEach((item) => {
+        item.cost = (Number(item.cost) / 82.83).toFixed(2);
+      });
+    }
+  };
+
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     setCurrentItems(jewelryItems.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(jewelryItems.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, jewelryItems]);
+  }, [itemOffset, itemsPerPage, jewelryItems, handleChange]); //handleChange
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % jewelryItems.length;
@@ -98,55 +88,55 @@ function PaginatedItems() {
 
   return (
     <>
-      <Box>
+      <Flex justifyContent={"flex-end"}>
+        <Text fontSize={"14px"} mt={2} mr={3}>
+          Currency: INR / USD
+        </Text>
+        <Switch mt={2} mr={10} onChange={toggleCurrency} />
+        <Text fontSize={"14px"} mt={2} mr={3}>
+          Sort By:
+        </Text>
         <Menu>
           <MenuButton
-            fontSize={["13px", "16px"]}
+            fontSize={["13px"]}
+            fontWeight={"400"}
             as={Button}
+            backgroundColor="white"
+            border={"1px solid #edf2f7"}
             rightIcon={<AiOutlineDown />}
+            mr={5}
           >
-            Sort By
+            {sortBy === "Remove sort" ? "Please select type" : sortBy}
           </MenuButton>
           <MenuList zIndex={3}>
             <MenuItem onClick={handleChange}>Price: Low-High</MenuItem>
             <MenuItem onClick={handleChange}>Price: High-Low</MenuItem>
-            <MenuItem onClick={handleChange}>Rating: Low-High</MenuItem>
-            <MenuItem onClick={handleChange}>Rating: High-Low</MenuItem>
             <MenuItem onClick={handleChange}>Name: A-Z</MenuItem>
             <MenuItem onClick={handleChange}>Name: Z-A</MenuItem>
+            <MenuItem onClick={handleChange}>Remove sort</MenuItem>
           </MenuList>
         </Menu>
-      </Box>
-      {/* <Select onChange={handleChange} mt={0} w={150} fontSize="14px">
-        <option value="htl">in paginate</option>
-        <option value="lth">Best selling</option>
-        <option value="a2z">Alphabetically, A-Z</option>
-        <option value="z2a">Alphabetically, Z-A</option>
-        <option value="lth">Price, low to high</option>
-        <option value="htl">Price, high to low</option>
-        <option value="a2z">Date, old to new</option>
-        <option value="z2a">Date, new to old</option>
-      </Select> */}
-      <Flex
-        color={"rgba(18, 18, 18, 0.85)"}
-        fontSize={"14px"}
-        justifyContent={"flex-end"}
-      >
-        <Text mt={2} mr={3}>
-          Items per page:
-        </Text>
-        <Select
-          justifyContent={"end"}
-          w={20}
-          onChange={(e) => setItemsPerPage(e.target.value)}
+        <Flex
+          color={"rgba(18, 18, 18, 0.85)"}
+          fontSize={"14px"}
+          justifyContent={"flex-end"}
         >
-          <option value="4">4</option>
-          <option value="8">8</option>
-          <option value="12">12</option>
-          <option value="16">16</option>
-          <option value="20">20</option>
-          <option value="24">24</option>
-        </Select>
+          <Text mt={2} mr={3}>
+            Items per page:
+          </Text>
+          <Select
+            justifyContent={"end"}
+            w={20}
+            onChange={(e) => setItemsPerPage(e.target.value)}
+          >
+            <option value="4">4</option>
+            <option value="8">8</option>
+            <option value="12">12</option>
+            <option value="16">16</option>
+            <option value="20">20</option>
+            <option value="24">24</option>
+          </Select>
+        </Flex>
       </Flex>
       {isLoading && <Spinner />}
       {isError && "something went wrong"}
@@ -165,8 +155,8 @@ function PaginatedItems() {
           ]}
           gap={1}
         >
-          {jewelryItems?.map((item) => (
-            <ImgCrate key={item._id} {...item} />
+          {currentItems?.map((item) => (
+            <ImgCrate key={item._id} {...item} usd={usd} />
           ))}
         </Grid>
       )}

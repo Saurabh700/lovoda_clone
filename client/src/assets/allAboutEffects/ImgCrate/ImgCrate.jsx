@@ -48,7 +48,10 @@ const ImgCrate = (item) => {
             </div>
             <figcaption className={styles.figcaption}>
               <p className={styles.link}>{item.title}</p>
-              <p className={styles.cost}>${item.cost}</p>
+              <p className={styles.cost}>
+                {item.usd ? "₹" : "$"}
+                {item.cost}
+              </p>
             </figcaption>
           </figure>
         </NavLink>

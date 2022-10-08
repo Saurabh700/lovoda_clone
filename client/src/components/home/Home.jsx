@@ -44,7 +44,7 @@ const Home = () => {
         gap={1}
       >
         {jewelryItems?.map((item) => (
-          <ImgCrate key={item.id} {...item} />
+          <ImgCrate key={item._id} {...item} />
         ))}
       </Grid>
 

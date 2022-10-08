@@ -22,13 +22,13 @@ export const getJewelryFailure = () => ({
   type: GET_JEWELRY_FAILURE,
 });
 
-export const sortLowToHigh = () => ({ type: SORT_LOW_TO_HIGH });
+// export const sortLowToHigh = () => ({ type: SORT_LOW_TO_HIGH });
 
-export const sortHighToLow = () => ({ type: SORT_HIGH_TO_LOW });
+// export const sortHighToLow = () => ({ type: SORT_HIGH_TO_LOW });
 
-export const nameAtoZ = () => ({ type: NAME_A_TO_Z });
+// export const nameAtoZ = () => ({ type: NAME_A_TO_Z });
 
-export const nameZtoA = () => ({ type: NAME_Z_TO_A });
+// export const nameZtoA = () => ({ type: NAME_Z_TO_A });
 
 export const getHome = (dispatch) => {
   dispatch(getJewelryRequest());
