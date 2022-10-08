@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Checkbox,
   Flex,
   Grid,
@@ -20,73 +21,33 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { getJewelry } from "../../redux/appReducer/action";
 import PaginatedItems from "./Paginate";
-import {
-  BEST_SELLING,
-  FEATURED,
-  SORT_ALPHABETICALLY_A_Z,
-  SORT_ALPHABETICALLY_Z_A,
-  SORT_DATE_NEW_TO_OLD,
-  SORT_DATE_OLD_TO_NEW,
-  SORT_PRICE_HTL,
-  SORT_PRICE_LTH,
-} from "../../redux/appReducer/actionTypes";
-import { useState } from "react";
-import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
+import { useDispatch } from "react-redux";
 
 const Collection = () => {
   const dispatch = useDispatch();
-  const prod = useSelector((store) => store.AppReducer.jewelryItems);
 
-  const [jewelryItems, setJewelryItems] = useState(prod);
-
-  // const [count, setCount] = useState(0);
-  console.log(jewelryItems, "old method");
-
-  const handleChange = (e) => {
-    let val = e.target.value;
-    // setCount((prev) => prev + 1);
-    // console.log(val, "selected val");
-    // console.log(jewelryItems, "final check");
-    switch (val) {
-      case "lth":
-        setJewelryItems([...prod.sort((a, b) => a.cost - b.cost)]);
-      case "htl":
-        setJewelryItems([...prod.sort((a, b) => b.cost - a.cost)]);
-      case "a2z":
-        return dispatch({ type: SORT_PRICE_LTH });
-      default:
-        return dispatch({ type: SORT_PRICE_HTL });
-    }
-
-    //   if (val === "lth") {
-    //     return dispatch({ type: SORT_PRICE_HTL });
-    //   } else if (val === "htl") {
-    //     return dispatch({ type: SORT_PRICE_LTH });
-    //   } else if (val === "a2z") {
-    //     return dispatch({ type: SORT_ALPHABETICALLY_A_Z });
-    //   } else if (val === "z2a") {
-    //     return dispatch({ type: SORT_ALPHABETICALLY_Z_A });
-    //   } else if (val === "o2n") {
-    //     return dispatch({ type: SORT_DATE_OLD_TO_NEW });
-    //   } else if (val === "n2o") {
-    //     return dispatch({ type: SORT_DATE_NEW_TO_OLD });
-    //   } else if (val === "bestSelling") {
-    //     return dispatch({ type: BEST_SELLING });
-    //   } else if (val === "featured") {
-    //     return dispatch({ type: FEATURED });
-    //   }
-  };
+  // const handleChange = (e) => {
+  //   let val = e.target.value;
+  //   switch (val) {
+  //     case "lth":
+  //       return dispatch({ type: SORT_PRICE_LTH });
+  //     case "htl":
+  //       return dispatch({ type: SORT_PRICE_LTH });
+  //     case "a2z":
+  //       return dispatch({ type: SORT_PRICE_LTH });
+  //     default:
+  //       return dispatch({ type: SORT_PRICE_HTL });
+  //   }
+  // };
 
   let params = useParams();
   console.log(params);
 
   useEffect(() => {
     dispatch(getJewelry(params.cat));
-  }, [params, jewelryItems]);
-  console.log(jewelryItems, "incollections");
+  }, [params]);
 
   return (
     <div className={styles.wrapper}>
@@ -180,7 +141,7 @@ const Collection = () => {
           </Menu>
         </div>
         <div className={styles.align}>
-          <p>Sort by:</p>
+          {/* <p>Sort by:</p>
           <Select onChange={handleChange} mt={0} w={150} fontSize="14px">
             <option value="htl">Featured</option>
             <option value="lth">Best selling</option>
@@ -188,17 +149,15 @@ const Collection = () => {
             <option value="z2a">Alphabetically, Z-A</option>
             <option value="lth">Price, low to high</option>
             <option value="htl">Price, high to low</option>
-            <option selected value="a2z">
-              Date, old to new
-            </option>
+            <option value="a2z">Date, old to new</option>
             <option value="z2a">Date, new to old</option>
-          </Select>
+          </Select> */}
           <p>374 products</p>
         </div>
       </div>
 
-      {/* <PaginatedItems itemsPerPage={4} /> */}
-      <Grid
+      <PaginatedItems itemsPerPage={4} />
+      {/* <Grid
         w={["269px", "583px", "540px", "807px", "1076px"]}
         m="auto"
         mt={8}
@@ -212,10 +171,10 @@ const Collection = () => {
         ]}
         gap={1}
       >
-        {jewelryItems?.map((item) => (
-          <ImgCrate key={item.id} {...item} />
+        {newdata?.map((item) => (
+          <ImgCrate key={item._id} {...item} />
         ))}
-      </Grid>
+      </Grid> */}
     </div>
   );
 };

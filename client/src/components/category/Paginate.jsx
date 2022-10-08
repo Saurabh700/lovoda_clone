@@ -1,8 +1,33 @@
-import { Box, Flex, Grid, Select, Spinner, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Select,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { AiOutlineDown } from "react-icons/ai";
 import ReactPaginate from "react-paginate";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
+import {
+  nameAtoZ,
+  nameZtoA,
+  sortHighToLow,
+  sortLowToHigh,
+} from "../../redux/appReducer/action";
+import {
+  NAME_A_TO_Z,
+  NAME_Z_TO_A,
+  SORT_HIGH_TO_LOW,
+  SORT_LOW_TO_HIGH,
+} from "../../redux/appReducer/actionTypes";
 
 function PaginatedItems() {
   const [itemsPerPage, setItemsPerPage] = useState(4);
@@ -10,18 +35,55 @@ function PaginatedItems() {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
 
-  const { jewelryItems, isLoading, isError } = useSelector((store) => {
-    return {
-      jewelryItems: store.AppReducer.jewelryItems,
-      isLoading: store.AppReducer.isLoading,
-      isError: store.AppReducer.isError,
-    };
-  });
+  const dispatch = useDispatch();
+
+  const { jewelryItems, isLoading, isError } = useSelector(
+    (store) => store.AppReducer
+  );
+
+  console.log(jewelryItems, "in paginate");
+
+  // const handleChange = (e) => {
+  //   let val = e.target.value;
+
+  //   switch (val) {
+  //     case "lth":
+  //       return dispatch(sortLowToHigh());
+  //     case "htl":
+  //       return dispatch(sortHighToLow());
+  //     case "a2z":
+  //       return dispatch(nameAtoZ());
+  //     case "z2a":
+  //       return dispatch(nameZtoA());
+  //     default:
+  //       console.log("default");
+  //   }
+  // };
+
+  const handleChange = ({ target: { textContent } }) => {
+    console.log(textContent, "textContent");
+
+    switch (textContent) {
+      case "Price: Low-High":
+        // return dispatch(sortLowToHigh());
+        return dispatch({ type: SORT_LOW_TO_HIGH });
+      case "Price: High-Low":
+        // return dispatch(sortHighToLow());
+        return dispatch({ type: SORT_HIGH_TO_LOW });
+      case "Name: A-Z":
+        // return dispatch(nameAtoZ());
+        return dispatch({ type: NAME_A_TO_Z });
+      case "Name: Z-A":
+        // return dispatch(nameZtoA());
+        return dispatch({ type: NAME_Z_TO_A });
+      default:
+        console.log("default");
+    }
+  };
 
   useEffect(() => {
-    // Fetch items from another resources.
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     setCurrentItems(jewelryItems.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(jewelryItems.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, jewelryItems]);
@@ -36,6 +98,35 @@ function PaginatedItems() {
 
   return (
     <>
+      <Box>
+        <Menu>
+          <MenuButton
+            fontSize={["13px", "16px"]}
+            as={Button}
+            rightIcon={<AiOutlineDown />}
+          >
+            Sort By
+          </MenuButton>
+          <MenuList zIndex={3}>
+            <MenuItem onClick={handleChange}>Price: Low-High</MenuItem>
+            <MenuItem onClick={handleChange}>Price: High-Low</MenuItem>
+            <MenuItem onClick={handleChange}>Rating: Low-High</MenuItem>
+            <MenuItem onClick={handleChange}>Rating: High-Low</MenuItem>
+            <MenuItem onClick={handleChange}>Name: A-Z</MenuItem>
+            <MenuItem onClick={handleChange}>Name: Z-A</MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
+      {/* <Select onChange={handleChange} mt={0} w={150} fontSize="14px">
+        <option value="htl">in paginate</option>
+        <option value="lth">Best selling</option>
+        <option value="a2z">Alphabetically, A-Z</option>
+        <option value="z2a">Alphabetically, Z-A</option>
+        <option value="lth">Price, low to high</option>
+        <option value="htl">Price, high to low</option>
+        <option value="a2z">Date, old to new</option>
+        <option value="z2a">Date, new to old</option>
+      </Select> */}
       <Flex
         color={"rgba(18, 18, 18, 0.85)"}
         fontSize={"14px"}
@@ -74,8 +165,8 @@ function PaginatedItems() {
           ]}
           gap={1}
         >
-          {currentItems?.map((item) => (
-            <ImgCrate key={item.id} {...item} />
+          {jewelryItems?.map((item) => (
+            <ImgCrate key={item._id} {...item} />
           ))}
         </Grid>
       )}

@@ -6,5 +6,6 @@ import thunk from "redux-thunk";
 const rootReducer = combineReducers({ AppReducer, AuthReducer });
 
 const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
+// const store = legacy_createStore(rootReducer);
 
 export { store };

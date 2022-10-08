@@ -1,5 +1,5 @@
 import styles from "./ImgCrate.module.css";
-import { Icon, Link } from "@chakra-ui/react";
+import { Icon, Link, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiFillHeart } from "react-icons/ai";
@@ -47,8 +47,8 @@ const ImgCrate = (item) => {
               />
             </div>
             <figcaption className={styles.figcaption}>
-              <Link className={styles.link}>{item.title}</Link>
-              <p>${item.cost}</p>
+              <p className={styles.link}>{item.title}</p>
+              <p className={styles.cost}>${item.cost}</p>
             </figcaption>
           </figure>
         </NavLink>
