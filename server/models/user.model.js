@@ -8,8 +8,6 @@ const userSchema = new mongoose.Schema(
     lastName: reqString,
     email: reqString,
     password: reqString,
-    gender: { ...reqString, enum: ["male", "female", "other"] },
-    dateOfBirth: reqString,
     cart: [String],
     wishlist: [String],
   },
@@ -20,4 +18,4 @@ const userSchema = new mongoose.Schema(
 
 const UserModel = mongoose.model("user", userSchema);
 
-module.exports = { userSchema };
+module.exports = { UserModel };

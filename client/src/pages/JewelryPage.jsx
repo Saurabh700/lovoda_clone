@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Button, Flex, Heading, Icon, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Toast,
+  useToast,
+} from "@chakra-ui/react";
 import { AiOutlineStar } from "react-icons/ai";
 import { RiWechatLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const JewelryPage = () => {
   const params = useParams();
   const [count, setCount] = useState(1);
   const [switchImg, setSwitchImg] = useState(false);
   const id = params.id;
+
+  const { isAuth, token } = useSelector((store) => store.AuthReducer);
+
+  const toast = useToast();
 
   const { jewelryItems, isLoading, isError } = useSelector((store) => {
     return {
@@ -19,11 +33,35 @@ const JewelryPage = () => {
     };
   });
 
+  const setToast = (title, desc, status) => {
+    toast({
+      title: title,
+      description: desc,
+      status: status,
+      duration: 4000,
+      isClosable: true,
+    });
+  };
+
   const jewel = jewelryItems.filter((item) => item._id === id);
+
+  const handleCart = () => {
+    if (!token) {
+      console.log("in cart");
+      setToast("please login first", "login", "warning");
+    } else if (token) {
+      axios
+        .post("http://localhost:8080/cart", { token, itemid: id })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
     <div style={{ marginBottom: "50px" }}>
       {jewel.map((item) => (
         <Flex
+          key={item._id}
           textAlign="left"
           fontWeight={"400"}
           fontSize="13px"
@@ -158,6 +196,7 @@ const JewelryPage = () => {
               p={"5px 10px"}
               m="5px"
               w={"100%"}
+              onClick={handleCart}
               _hover={{ backgroundColor: "white", border: "1px solid #edf2f7" }}
             >
               Add to Cart

@@ -1,9 +1,6 @@
 import {
-  Box,
-  Button,
   Checkbox,
   Flex,
-  Grid,
   Icon,
   Input,
   Link,
@@ -11,30 +8,28 @@ import {
   MenuButton,
   MenuDivider,
   MenuList,
-  Select,
-  Spinner,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
+import PaginatedItems from "./Paginate";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import styles from "./Collection.module.css";
-import { AiOutlineDown, AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { getJewelry } from "../../redux/appReducer/action";
-import PaginatedItems from "./Paginate";
 import { useDispatch, useSelector } from "react-redux";
+import { getJewelry } from "../../redux/appReducer/action";
+import { AiOutlineDown, AiOutlineSearch } from "react-icons/ai";
 import { FILTER_COST } from "../../redux/appReducer/actionTypes";
 
 const Collection = () => {
   const dispatch = useDispatch();
-  const [bear, setBear] = useState(0);
-  const [bull, setBull] = useState(0);
+
+  const [bear, setBear] = useState("");
+  const [bull, setBull] = useState("");
 
   const { jewelryItems } = useSelector((store) => store.AppReducer);
 
   let params = useParams();
-  console.log(params);
 
   useEffect(() => {
     dispatch(getJewelry(params.cat));
@@ -53,9 +48,11 @@ const Collection = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.new}>{params.cat}</div>
+
       <div className={styles.filter}>
         <div className={styles.align}>
           <p>Filter:</p>
+
           <Menu>
             <MenuButton as={Link}>
               Actions{" "}
@@ -67,6 +64,7 @@ const Collection = () => {
                 w={3}
               />
             </MenuButton>
+
             <MenuList zIndex={2}>
               <Flex pt={2} pl={5}>
                 <div>The highest price is $95.00</div>
@@ -86,7 +84,9 @@ const Collection = () => {
                   <Link onClick={handlePriceReset}>Reset</Link>
                 </div>
               </Flex>
+
               <MenuDivider />
+
               <Flex p={3}>
                 <Icon
                   className={styles.icon}
@@ -127,8 +127,6 @@ const Collection = () => {
             </MenuList>
           </Menu>
 
-          {/* -------------------------------- */}
-
           <Menu>
             <MenuButton as={Link}>
               Availability{" "}
@@ -140,6 +138,7 @@ const Collection = () => {
                 w={3}
               />
             </MenuButton>
+
             <MenuList zIndex={2}>
               <Flex justifyContent="space-between" pt={2} pl={5} w={300} pr={0}>
                 <div>0 Selected</div>
@@ -147,7 +146,9 @@ const Collection = () => {
                   <Link mr={5}>Reset</Link>
                 </div>
               </Flex>
+
               <MenuDivider />
+
               <Flex p={3}>
                 <Checkbox pr={2} />
                 In stock ({jewelryItems.length})
@@ -163,6 +164,7 @@ const Collection = () => {
           <p>{jewelryItems.length} products</p>
         </div>
       </div>
+
       <PaginatedItems itemsPerPage={4} />
     </div>
   );

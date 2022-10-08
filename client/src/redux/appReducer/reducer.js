@@ -24,6 +24,7 @@ const reducer = (oldState = initState, action) => {
         isLoading: true,
         isError: false,
       };
+
     case GET_JEWELRY_SUCCESS:
       return {
         ...oldState,
@@ -31,25 +32,26 @@ const reducer = (oldState = initState, action) => {
         isError: false,
         jewelryItems: action.payload,
       };
+
     case GET_JEWELRY_FAILURE:
       return {
         ...oldState,
         isLoading: false,
         isError: true,
       };
+
     case SORT_LOW_TO_HIGH:
-      console.log("in reducer");
-      console.log(oldState);
       return {
         ...oldState,
         jewelryItems: oldState.jewelryItems.sort((a, b) => a.cost - b.cost),
       };
+
     case SORT_HIGH_TO_LOW:
-      console.log(oldState, "htl");
       return {
         ...oldState,
         jewelryItems: oldState.jewelryItems.sort((a, b) => b.cost - a.cost),
       };
+
     case NAME_A_TO_Z:
       return {
         ...oldState,
@@ -57,6 +59,7 @@ const reducer = (oldState = initState, action) => {
           a.title.localeCompare(b.title)
         ),
       };
+
     case NAME_Z_TO_A:
       return {
         ...oldState,
@@ -64,6 +67,7 @@ const reducer = (oldState = initState, action) => {
           b.title.localeCompare(a.title)
         ),
       };
+
     case FILTER_COST:
       return {
         ...oldState,
@@ -72,6 +76,7 @@ const reducer = (oldState = initState, action) => {
             item.cost >= action.payload[0] && item.cost <= action.payload[1]
         ),
       };
+
     default:
       return oldState;
   }

@@ -8,19 +8,20 @@ import {
   InputRightElement,
   Stack,
 } from "@chakra-ui/react";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { AiFillFacebook } from "react-icons/ai";
-import { BsPinterest } from "react-icons/bs";
-import { AiOutlineInstagram } from "react-icons/ai";
-import { FaTiktok } from "react-icons/fa";
-import styles from "./Footer1.module.css";
 import React from "react";
 import { Link } from "@chakra-ui/react";
+import { FaTiktok } from "react-icons/fa";
+import styles from "./Footer1.module.css";
+import { BsPinterest } from "react-icons/bs";
+import { AiFillFacebook } from "react-icons/ai";
+import { AiOutlineInstagram } from "react-icons/ai";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 const Footer1 = () => {
   return (
     <div>
       <hr />
+
       <div className={styles.wrapper}>
         <Flex className={styles.bottom}>
           <Grid
@@ -36,6 +37,7 @@ const Footer1 = () => {
           >
             <Box>
               <h1 className={styles.heading}>Info</h1>
+
               <Flex className={styles.items}>
                 <Link>Search</Link>
                 <Link>Terms of Service</Link>
@@ -44,7 +46,9 @@ const Footer1 = () => {
                 <Link>Wholesale Signup Form</Link>
                 <Link>Shipping</Link>
               </Flex>
+
               <h1 className={styles.heading}>Subscribe to our emails</h1>
+
               <Stack
                 className={styles.inputSection}
                 w={["200px", "250px", "300px", "350px"]}
@@ -63,6 +67,7 @@ const Footer1 = () => {
                       />
                     }
                   />
+
                   <Input
                     className={styles.inputBox}
                     type="text"

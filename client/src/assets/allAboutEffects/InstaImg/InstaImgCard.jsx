@@ -7,6 +7,7 @@ const InstaImgCard = ({ item }) => {
       <div className={styles.wrapper}>
         <figure className={styles.figure}>
           <img className={styles.image} src={item.image1} alt="img" />
+
           <figcaption className={styles.figcaption}>
             <h1 className={styles.text}>SHOP THIS LOOK</h1>
             <br />

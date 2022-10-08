@@ -6,28 +6,31 @@ require("dotenv").config();
 
 const account = Router();
 
-account.post("/register", (req, res) => {
-  const { firstName, lastName, email, password, gender, dateOfBirth } =
-    req.body;
-  bcrypt
-    .hash(password, 6)
-    .then(async (hash) => {
-      const user = new UserModel({
-        email: email,
-        password: hash,
-        firstName,
-        lastName,
-        gender,
-        dateOfBirth,
-        cart: [],
-        wishlist: [],
+account.post("/register", async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+  console.log(email);
+  const exist = await UserModel.findOne({ email });
+  if (exist) {
+    res.send({ msg: "already registered" });
+  } else {
+    bcrypt
+      .hash(password, 6)
+      .then(async (hash) => {
+        const user = new UserModel({
+          email: email,
+          password: hash,
+          firstName,
+          lastName,
+          cart: [],
+          wishlist: [],
+        });
+        await user.save();
+        res.send({ msg: "signup successfull" });
+      })
+      .catch((err) => {
+        res.send("something went wrong");
       });
-      await user.save();
-      res.send("signup successfull");
-    })
-    .catch((err) => {
-      res.send("something went wrong");
-    });
+  }
 });
 
 account.post("/login", async (req, res) => {
@@ -45,15 +48,21 @@ account.post("/login", async (req, res) => {
           }
         );
         console.log(token);
-        res.send({ msg: "Login successfull", token: token });
+        res.send({
+          msg: "Login successfull",
+          token: token,
+          userName: isValid.firstName,
+          cart: isValid.cart,
+          wishlist: isValid.wishlist,
+        });
       } else if (err) {
         res.send({
-          msg: "Login failed in valid credentials » password doesnt match » forgot password?",
+          msg: "incorrect password",
         });
       }
     });
   } else {
-    res.send({ msg: "user not found, please login first" });
+    res.send({ msg: "user not found" });
   }
 });
 

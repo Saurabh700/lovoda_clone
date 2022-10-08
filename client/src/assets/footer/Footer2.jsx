@@ -1,7 +1,8 @@
-import { Flex, Icon } from "@chakra-ui/react";
 import React from "react";
 import styles from "./Footer2.module.css";
 import { BiCopyright } from "react-icons/bi";
+import { Flex, Icon } from "@chakra-ui/react";
+import { AiFillHeart } from "react-icons/ai";
 
 const Footer2 = () => {
   return (
@@ -13,10 +14,22 @@ const Footer2 = () => {
           alt=""
         />
       </Flex>
-      <div className={styles.icon}>
-        <Icon color="rgba(18, 18, 18)" as={BiCopyright} h={2} w={2} /> 2022,
-        Lovoda Powered by Shopify
-      </div>
+
+      <Flex className={styles.icon} justifyContent="center">
+        <Icon
+          color="rgba(18, 18, 18)"
+          as={BiCopyright}
+          h={2}
+          mt={1}
+          w={2}
+          mr={1}
+        />
+        Made with{" "}
+        <Flex m={"3px"} h={5}>
+          <AiFillHeart color="red" />
+        </Flex>{" "}
+        by Saurabh Patel
+      </Flex>
     </div>
   );
 };

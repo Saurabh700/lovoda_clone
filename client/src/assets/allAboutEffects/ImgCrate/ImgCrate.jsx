@@ -1,12 +1,13 @@
-import styles from "./ImgCrate.module.css";
-import { Icon, Link, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
-import { AiFillHeart } from "react-icons/ai";
+import { Icon } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
+import styles from "./ImgCrate.module.css";
+import { AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const ImgCrate = (item) => {
   const [toggle, setToggle] = useState(false);
+
   return (
     <div>
       <div onClick={() => setToggle(!toggle)} className={styles.wishBack}>
@@ -20,6 +21,7 @@ const ImgCrate = (item) => {
             w={5}
           />
         )}
+
         {toggle && (
           <Icon
             onClick={() => setToggle(!toggle)}
@@ -31,6 +33,7 @@ const ImgCrate = (item) => {
           />
         )}
       </div>
+
       <div key={item.id} className={styles.wrapper}>
         <NavLink to={`/collections/product/${item._id}`}>
           <figure className={styles.figure}>
@@ -40,12 +43,14 @@ const ImgCrate = (item) => {
                 className={styles.imgBack}
                 alt="frontImage"
               />
+
               <img
                 src={item.front}
                 className={styles.imgFront}
                 alt="backImage"
               />
             </div>
+
             <figcaption className={styles.figcaption}>
               <p className={styles.link}>{item.title}</p>
               <p className={styles.cost}>
