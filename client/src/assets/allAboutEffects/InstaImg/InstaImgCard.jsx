@@ -9,7 +9,13 @@ const InstaImgCard = ({ item }) => {
           <img className={styles.image} src={item.image1} alt="img" />
 
           <figcaption className={styles.figcaption}>
-            <h1 className={styles.text}>SHOP THIS LOOK</h1>
+            <a
+              target={"_blank"}
+              href="https://www.instagram.com/p/ChkYKFzOyLv/"
+              className={styles.text}
+            >
+              SHOP THIS LOOK
+            </a>
             <br />
             <span></span>
           </figcaption>

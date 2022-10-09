@@ -8,8 +8,18 @@ const userSchema = new mongoose.Schema(
     lastName: reqString,
     email: reqString,
     password: reqString,
-    cart: [String],
-    wishlist: [String],
+    cart: [
+      {
+        itemId: String,
+        count: Number,
+      },
+    ],
+    wishlist: [
+      {
+        itemId: String,
+        count: Number,
+      },
+    ],
   },
   {
     timestamps: true,

@@ -3,12 +3,11 @@ const { UserModel } = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const cart = Router();
+const wishlist = Router();
 
-cart.post("/", async (req, res) => {
-  console.log("cart trigerred");
-  const { token, itemId, count } = req.body;
-  console.log(req.body);
+wishlist.post("/", async (req, res) => {
+  const { token, itemId } = req.body;
+  console.log(req.body, "add items");
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,
@@ -18,18 +17,17 @@ cart.post("/", async (req, res) => {
       } else if (decoded) {
         await UserModel.updateOne(
           { email: decoded.email },
-          { $push: { cart: { itemId, count } } }
+          { $push: { wishlist: { itemId: itemId } } }
         );
-        res.send({ msg: "item added to cart" });
+        res.send({ msg: "item added to wishlist" });
       }
     }
   );
 });
 
-cart.post("/count", async (req, res) => {
-  console.log("count trigerred");
-  const { token, itemId, count } = req.body;
-  console.log(req.body);
+wishlist.delete("/", async (req, res) => {
+  const { token, itemId } = req.body;
+  console.log(req.body, "delete body");
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,
@@ -37,14 +35,15 @@ cart.post("/count", async (req, res) => {
       if (err) {
         res.send({ msg: "session timed out" });
       } else if (decoded) {
-        await UserModel.updateOne(
-          { email: decoded.email, "cart.itemId": itemId },
-          { $set: { "cart.$.count": count } }
+        await UserModel.updateMany(
+          { email: decoded.email },
+          { $pull: { wishlist: { itemId: itemId } } },
+          { multi: true }
         );
-        res.send({ msg: "count incremented in cart" });
+        res.send({ msg: "item added to wishlist" });
       }
     }
   );
 });
 
-module.exports = { cart };
+module.exports = { wishlist };

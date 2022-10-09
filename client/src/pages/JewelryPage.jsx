@@ -7,7 +7,7 @@ import {
   Heading,
   Icon,
   Image,
-  Toast,
+  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import { AiOutlineStar } from "react-icons/ai";
@@ -20,8 +20,12 @@ const JewelryPage = () => {
   const [count, setCount] = useState(1);
   const [switchImg, setSwitchImg] = useState(false);
   const id = params.id;
+  console.log(typeof id, "sdfslk");
 
   const { isAuth, token } = useSelector((store) => store.AuthReducer);
+
+  const [countLoading, setCountLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
 
   const toast = useToast();
 
@@ -43,6 +47,58 @@ const JewelryPage = () => {
     });
   };
 
+  const handleCountInc = () => {
+    setCount((prev) => prev + 1);
+    if (!token) {
+      console.log("in cart");
+      setToast("please login first", "login", "warning");
+    } else if (count === 4) {
+      setToast("max order limit reached");
+    } else if (token) {
+      setCountLoading(true);
+      axios
+        .post("http://localhost:8080/cart/count", {
+          token,
+          itemId: id,
+          count: count + 1,
+        })
+        .then((res) => {
+          setCountLoading(false);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          setCountLoading(false);
+        });
+    }
+  };
+
+  const handleCountDec = () => {
+    setCount((prev) => prev - 1);
+    if (!token) {
+      console.log("in cart");
+      setToast("please login first", "login", "warning");
+    } else if (count === 1) {
+      setToast("min order limit reached");
+    } else if (token) {
+      setCountLoading(true);
+      axios
+        .post("http://localhost:8080/cart/count", {
+          token,
+          itemId: id,
+          count: count - 1,
+        })
+        .then((res) => {
+          console.log(res, "successfull");
+          setCountLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setCountLoading(false);
+        });
+    }
+  };
+
   const jewel = jewelryItems.filter((item) => item._id === id);
 
   const handleCart = () => {
@@ -50,10 +106,23 @@ const JewelryPage = () => {
       console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (token) {
+      setCartLoading(true);
       axios
-        .post("http://localhost:8080/cart", { token, itemid: id })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .post("http://localhost:8080/cart", {
+          token,
+          itemId: id,
+          count: count,
+        })
+        .then((res) => {
+          setToast("Item added to cart", "added to cart", "success");
+          console.log(res, "successfull");
+          setCartLoading(false);
+        })
+        .catch((err) => {
+          setToast("something went wrong", "please try again", "warning");
+          console.log(err);
+          setCartLoading(false);
+        });
     }
   };
 
@@ -172,25 +241,29 @@ const JewelryPage = () => {
                 display: "flex",
                 border: "1px solid black",
                 marginTop: "10px",
-                padding: "5px 10px 5px 10px",
+                padding: "8px 10px 5px 10px",
                 width: "100px",
+                height: "40px",
                 justifyContent: "space-between",
                 marginBottom: "20px",
               }}
             >
-              <div
+              <button
+                disabled={count === 1}
                 style={{ cursor: "pointer" }}
-                onClick={() => setCount(count - 1)}
+                onClick={handleCountDec}
               >
                 -
-              </div>
-              <div>{count}</div>
-              <div
+              </button>
+              <div>{countLoading ? <Spinner /> : count}</div>
+
+              <button
+                disabled={count === 5}
                 style={{ cursor: "pointer" }}
-                onClick={() => setCount(count + 1)}
+                onClick={handleCountInc}
               >
                 +
-              </div>
+              </button>
             </div>
             <Button
               p={"5px 10px"}
@@ -199,7 +272,7 @@ const JewelryPage = () => {
               onClick={handleCart}
               _hover={{ backgroundColor: "white", border: "1px solid #edf2f7" }}
             >
-              Add to Cart
+              {cartLoading ? <Spinner /> : "Add to Cart"}
             </Button>
             <Button
               p={"5px 10px"}

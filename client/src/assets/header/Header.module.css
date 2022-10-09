@@ -4,6 +4,9 @@
   letter-spacing: 0.1px;
   margin-right: 17px;
 }
+.link {
+  border-bottom: 1px solid transparent;
+}
 .link:hover {
   border-bottom: 1px solid black;
 }
@@ -14,14 +17,3 @@
   margin: 2px;
   font-size: 13px;
 }
-/* 
-<Box>
-        <Flex justifyContent={"center"}>
-          <IconButton
-            onClick={onOpen}
-            pl={3}
-            display={["block", "block", "Block", "none"]}
-            icon={<GiHamburgerMenu />}
-          />
-        </Flex>
-      </Box> */

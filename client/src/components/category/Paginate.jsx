@@ -157,7 +157,7 @@ function PaginatedItems() {
           ]}
           gap={1}
         >
-          {currentItems?.map((item) => (
+          {jewelryItems?.map((item) => (
             <ImgCrate key={item._id} {...item} usd={usd} />
           ))}
         </Grid>

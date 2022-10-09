@@ -1,19 +1,77 @@
 import React, { useState } from "react";
-import { Icon } from "@chakra-ui/react";
+import { Icon, useToast } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import styles from "./ImgCrate.module.css";
 import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ImgCrate = (item) => {
+  console.log(item, "fdjlksk");
   const [toggle, setToggle] = useState(false);
+
+  const { isAuth, token } = useSelector((store) => store.AuthReducer);
+
+  const toast = useToast();
+
+  const setToast = (title, desc, status) => {
+    toast({
+      title: title,
+      description: desc,
+      status: status,
+      duration: 4000,
+      isClosable: true,
+    });
+  };
+
+  const handleToggle = () => {
+    if (!token) {
+      setToast("please login first", "login", "warning");
+    } else if (!toggle) {
+      axios
+        .post("http://localhost:8080/wishlist", {
+          token,
+          itemId: item._id,
+        })
+        .then((res) => {
+          setToast("Item added to wishlist", "added to wishlist", "success");
+          console.log(res, "successfull");
+          setToggle(true);
+        })
+        .catch((err) => {
+          setToast("something went wrong", "please try again", "warning");
+          console.log(err);
+        });
+    } else if (toggle) {
+      axios
+        .delete("http://localhost:8080/wishlist", {
+          data: {
+            token,
+            itemId: item._id,
+          },
+        })
+        .then((res) => {
+          setToast(
+            "Item removed from wishlist",
+            "removed from wishlist",
+            "success"
+          );
+          console.log(res, "successfull");
+          setToggle(false);
+        })
+        .catch((err) => {
+          setToast("something went wrong", "please try again", "warning");
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <div>
-      <div onClick={() => setToggle(!toggle)} className={styles.wishBack}>
+      <div onClick={handleToggle} className={styles.wishBack}>
         {!toggle && (
           <Icon
-            onClick={() => setToggle(!toggle)}
             className={styles.emptyHeartAlone}
             color="#c9ac92"
             as={AiOutlineHeart}
@@ -24,7 +82,6 @@ const ImgCrate = (item) => {
 
         {toggle && (
           <Icon
-            onClick={() => setToggle(!toggle)}
             className={styles.filledHeart}
             color="#c9ac92"
             as={AiFillHeart}
@@ -34,7 +91,7 @@ const ImgCrate = (item) => {
         )}
       </div>
 
-      <div key={item.id} className={styles.wrapper}>
+      <div className={styles.wrapper}>
         <NavLink to={`/collections/product/${item._id}`}>
           <figure className={styles.figure}>
             <div className={styles.hoverAnimation}>
