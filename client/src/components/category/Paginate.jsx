@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Flex,
   Grid,
@@ -19,43 +20,54 @@ import {
 } from "../../redux/appReducer/actionTypes";
 import ReactPaginate from "react-paginate";
 import { AiOutlineDown } from "react-icons/ai";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
 
 function PaginatedItems() {
   const [usd, setUsd] = useState(false);
   const [itemOffset, setItemOffset] = useState(0);
   const [pageCount, setPageCount] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   const [currentItems, setCurrentItems] = useState([]);
   const [sortBy, setSortBy] = useState("Please select type");
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
+  const [count, setCount] = useState(0);
+
   const { jewelryItems, isLoading, isError } = useSelector(
-    (store) => store.AppReducer,
-    shallowEqual
+    (store) => store.AppReducer
   );
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 1500);
 
   // console.log(jewelryItems);
 
-  const handleChange = ({ target: { textContent } }) => {
-    setSortBy(textContent);
+  const handleChange = useCallback(
+    ({ target: { textContent } }) => {
+      setCount((prev) => prev + 1);
+      console.log("trigerred");
+      setSortBy(textContent);
 
-    switch (textContent) {
-      case "Price: Low-High":
-        return dispatch({ type: SORT_LOW_TO_HIGH });
-      case "Price: High-Low":
-        return dispatch({ type: SORT_HIGH_TO_LOW });
-      case "Name: A-Z":
-        return dispatch({ type: NAME_A_TO_Z });
-      case "Name: Z-A":
-        return dispatch({ type: NAME_Z_TO_A });
-      default:
-        console.log("default");
-    }
-  };
+      switch (textContent) {
+        case "Price: Low-High":
+          return dispatch({ type: SORT_LOW_TO_HIGH });
+        case "Price: High-Low":
+          return dispatch({ type: SORT_HIGH_TO_LOW });
+        case "Name: A-Z":
+          return dispatch({ type: NAME_A_TO_Z });
+        case "Name: Z-A":
+          return dispatch({ type: NAME_Z_TO_A });
+        default:
+          console.log("default");
+      }
+    },
+    [count]
+  );
 
   const toggleCurrency = () => {
     setUsd(!usd);
@@ -74,7 +86,7 @@ function PaginatedItems() {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(jewelryItems.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(jewelryItems.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, jewelryItems]); //handleChange
+  }, [itemOffset, jewelryItems, itemsPerPage, handleChange]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % jewelryItems.length;
@@ -115,7 +127,9 @@ function PaginatedItems() {
           </MenuList>
         </Menu>
 
-        <Flex
+        {/* Items per page */}
+
+        {/* <Flex
           color={"rgba(18, 18, 18, 0.85)"}
           fontSize={"14px"}
           justifyContent={"flex-end"}
@@ -135,14 +149,14 @@ function PaginatedItems() {
             <option value="20">20</option>
             <option value="24">24</option>
           </Select>
-        </Flex>
+        </Flex> */}
       </Flex>
 
-      {isLoading && <Spinner />}
+      {/* {isLoading && <Spinner />} */}
 
       {isError && "something went wrong"}
 
-      {!isLoading && (
+      {!isLoading && ( // for actual loading
         <Grid
           w={["269px", "583px", "540px", "807px", "1076px"]}
           m="auto"
@@ -157,11 +171,19 @@ function PaginatedItems() {
           ]}
           gap={1}
         >
-          {jewelryItems?.map((item) => (
-            <ImgCrate key={item._id} {...item} usd={usd} />
-          ))}
+          {loading ? ( //for spinner loading
+            <Box w={["269px", "583px", "540px", "807px", "1076px"]}>
+              <Spinner m={"auto"} />
+            </Box>
+          ) : (
+            currentItems?.map((item) => (
+              <ImgCrate key={item._id} {...item} usd={usd} />
+            ))
+          )}
         </Grid>
       )}
+
+      {/* currentItems || jewelryItems */}
 
       <ReactPaginate
         breakLabel="..."

@@ -6,7 +6,7 @@ require("dotenv").config();
 const wishlist = Router();
 
 wishlist.post("/", async (req, res) => {
-  const { token, itemId } = req.body;
+  const { token, itemId, front, flash, title, category, cost } = req.body;
   console.log(req.body, "add items");
   jwt.verify(
     token,
@@ -17,7 +17,11 @@ wishlist.post("/", async (req, res) => {
       } else if (decoded) {
         await UserModel.updateOne(
           { email: decoded.email },
-          { $push: { wishlist: { itemId: itemId } } }
+          {
+            $push: {
+              wishlist: { itemId, front, flash, title, category, cost },
+            },
+          }
         );
         res.send({ msg: "item added to wishlist" });
       }

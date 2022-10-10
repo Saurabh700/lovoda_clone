@@ -12,12 +12,21 @@ const userSchema = new mongoose.Schema(
       {
         itemId: String,
         count: Number,
+        category: String,
+        cost: String,
+        flash: String,
+        front: String,
+        title: String,
       },
     ],
     wishlist: [
       {
         itemId: String,
-        count: Number,
+        category: String,
+        cost: String,
+        flash: String,
+        front: String,
+        title: String,
       },
     ],
   },
@@ -25,6 +34,15 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+//  token,
+//           itemId: id,
+//           count: count,
+//           category: jewel[0].category,
+//           cost: jewel[0].cost,
+//           flash: jewel[0].flash,
+//           front: jewel[0].front,
+//           title: jewel[0].title,
 
 const UserModel = mongoose.model("user", userSchema);
 

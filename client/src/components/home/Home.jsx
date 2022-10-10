@@ -1,21 +1,33 @@
-import { Box, Grid, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, Grid, Spinner, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ImgCrate from "../../assets/allAboutEffects/ImgCrate/ImgCrate";
 import InstaImg from "../../assets/allAboutEffects/InstaImg/InstaImg";
 import styles from "./home.module.css";
 import { getHome } from "../../redux/appReducer/action";
+import { getUsersData } from "../../redux/authReducer/action";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const jewelryItems = useSelector((store) => store.AppReducer.jewelryItems);
+  const { jewelryItems } = useSelector((store) => store.AppReducer);
+  const { token, wishlist } = useSelector((store) => store.AuthReducer);
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getHome);
+    if (token) {
+      dispatch(getUsersData(token));
+    }
   }, []);
 
-  console.log(jewelryItems);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1500);
+
+  console.log(wishlist);
+
   return (
     <div>
       <div>
@@ -23,7 +35,7 @@ const Home = () => {
           <Text>NEW NEW NEW</Text>
           <h2>Check out the new beauties!</h2>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <NavLink to="/collections/allproducts">
+            <NavLink to="/collections/All-Products">
               <button className={styles.btn}>Shop All</button>
             </NavLink>
           </div>
@@ -43,9 +55,13 @@ const Home = () => {
         ]}
         gap={1}
       >
-        {jewelryItems?.map((item) => (
-          <ImgCrate key={item._id} {...item} />
-        ))}
+        {loading ? (
+          <Box w={["269px", "583px", "540px", "807px", "1076px"]}>
+            <Spinner m={"auto"} />
+          </Box>
+        ) : (
+          jewelryItems?.map((item) => <ImgCrate key={item._id} {...item} />)
+        )}
       </Grid>
 
       <Box>

@@ -12,6 +12,7 @@ const { cart } = require("./allRoutes/cart.route");
 const { home } = require("./allRoutes/home.route");
 const { account } = require("./allRoutes/account.route");
 const { wishlist } = require("./allRoutes/wishlist.route");
+const { usersdata } = require("./allRoutes/usersdata.route");
 const { collections } = require("./allRoutes/collections.route");
 const { addproducts } = require("./allRoutes/addproducts.route");
 
@@ -19,6 +20,7 @@ app.use("/home", home);
 app.use("/cart", cart);
 app.use("/account", account);
 app.use("/wishlist", wishlist);
+app.use("/usersdata", usersdata);
 app.use("/collections", collections);
 app.use("/addproducts", addproducts);
 

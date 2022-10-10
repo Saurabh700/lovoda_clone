@@ -44,7 +44,7 @@ account.post("/login", async (req, res) => {
           { email: isValid.email },
           process.env.COMPANY_SECRET_KEY,
           {
-            expiresIn: "3h",
+            expiresIn: "100h",
           }
         );
         console.log(token);

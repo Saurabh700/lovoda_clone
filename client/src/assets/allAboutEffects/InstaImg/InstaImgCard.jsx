@@ -11,7 +11,7 @@ const InstaImgCard = ({ item }) => {
           <figcaption className={styles.figcaption}>
             <a
               target={"_blank"}
-              href="https://www.instagram.com/p/ChkYKFzOyLv/"
+              href="https://www.instagram.com/lovodashop/"
               className={styles.text}
             >
               SHOP THIS LOOK

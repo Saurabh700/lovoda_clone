@@ -6,12 +6,16 @@ import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import axios from "axios";
 import { useSelector } from "react-redux";
+// import { getUsersData } from "../../../redux/authReducer/action";
+import { useEffect } from "react";
 
 const ImgCrate = (item) => {
-  console.log(item, "fdjlksk");
+  // console.log(item, "fdjlksk");
   const [toggle, setToggle] = useState(false);
 
-  const { isAuth, token } = useSelector((store) => store.AuthReducer);
+  // const dispatch = useDispatch();
+
+  const { token, wishlist } = useSelector((store) => store.AuthReducer);
 
   const toast = useToast();
 
@@ -25,6 +29,14 @@ const ImgCrate = (item) => {
     });
   };
 
+  useEffect(() => {
+    wishlist.forEach((jewel) => {
+      if (jewel.itemId === item._id) {
+        setToggle(true);
+      }
+    });
+  }, []);
+
   const handleToggle = () => {
     if (!token) {
       setToast("please login first", "login", "warning");
@@ -33,11 +45,17 @@ const ImgCrate = (item) => {
         .post("http://localhost:8080/wishlist", {
           token,
           itemId: item._id,
+          front: item.front,
+          flash: item.flash,
+          title: item.title,
+          category: item.category,
+          cost: item.cost,
         })
         .then((res) => {
           setToast("Item added to wishlist", "added to wishlist", "success");
           console.log(res, "successfull");
           setToggle(true);
+          // dispatch(getUsersData(token));
         })
         .catch((err) => {
           setToast("something went wrong", "please try again", "warning");
@@ -59,6 +77,7 @@ const ImgCrate = (item) => {
           );
           console.log(res, "successfull");
           setToggle(false);
+          // dispatch(getUsersData(token));
         })
         .catch((err) => {
           setToast("something went wrong", "please try again", "warning");

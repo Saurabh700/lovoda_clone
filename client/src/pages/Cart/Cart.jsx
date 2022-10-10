@@ -5,9 +5,11 @@ import EmptyCart from "./EmptyCart";
 
 const Cart = () => {
   const { cart } = useSelector((store) => store.AuthReducer);
+  console.log(cart, "in cart");
+
   return (
     <div style={{ width: "1100px", margin: "auto" }}>
-      {cart.length === 0 ? <EmptyCart /> : <CartItems />}
+      {cart?.length === 0 ? <EmptyCart /> : <CartItems />}
     </div>
   );
 };

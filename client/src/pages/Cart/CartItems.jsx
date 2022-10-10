@@ -1,4 +1,5 @@
 import {
+  Box,
   Icon,
   Link,
   Table,
@@ -8,21 +9,109 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsTrash } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { getUsersData } from "../../redux/authReducer/action";
+import { useEffect } from "react";
 
 const CartItems = () => {
-  const [count, setCount] = useState(1);
-  const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
+
+  const { token } = useSelector((store) => store.AuthReducer);
 
   const { cart } = useSelector((store) => store.AuthReducer);
 
-  const TotalAmountFn = ({ count, item }) => {
-    setTotalAmount(count * item.price);
+  const toast = useToast();
+
+  const dispatch = useDispatch();
+
+  console.log(cart, "in cart");
+
+  let totalPrice = 0;
+
+  useEffect(() => {
+    dispatch(getUsersData(token));
+  }, []);
+
+  const setToast = (title, desc, status) => {
+    toast({
+      title: title,
+      description: desc,
+      status: status,
+      duration: 4000,
+      isClosable: true,
+    });
+  };
+
+  const handleCountDec = (id, count) => {
+    if (!token) {
+      console.log("in cart");
+      setToast("please login first", "login", "warning");
+    } else if (count === 1) {
+      setToast("min order limit reached");
+    } else if (token) {
+      axios
+        .post("http://localhost:8080/cart/count", {
+          token,
+          itemId: id,
+          count: count - 1,
+        })
+        .then((res) => {
+          console.log(res, "successfull");
+          dispatch(getUsersData(token));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleCountInc = (id, count) => {
+    console.log(id);
+    if (!token) {
+      console.log("in cart");
+      setToast("please login first", "login", "warning");
+    } else if (count === 4) {
+      setToast("max order limit reached");
+    } else if (token) {
+      axios
+        .post("http://localhost:8080/cart/count", {
+          token,
+          itemId: id,
+          count: count + 1,
+        })
+        .then((res) => {
+          console.log(res);
+          dispatch(getUsersData(token));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleDelete = (id) => {
+    axios
+      .delete("http://localhost:8080/cart", {
+        data: {
+          token,
+          itemId: id,
+        },
+      })
+      .then((res) => {
+        setToast("Item removed from cart", "removed from cart", "success");
+        console.log(res, "successfull");
+        dispatch(getUsersData(token));
+      })
+      .catch((err) => {
+        setToast("something went wrong", "please try again", "warning");
+        console.log(err);
+      });
   };
 
   return (
@@ -40,19 +129,10 @@ const CartItems = () => {
             marginBottom: "60px",
           }}
         >
-          {/* <button
-            
-            className={styles.btn}
-            onClick={() => navigate("/collections/allproducts")}
-          >
-            <div style={{ fontSize: "16px", fontWeight: "400" }}>
-              Continue shopping
-            </div>
-          </button> */}
           <Link mt="90px">Continue Shopping</Link>
         </div>
       </div>
-      <div>
+      <Box>
         <TableContainer>
           <Table variant="simple">
             <Thead>
@@ -63,85 +143,92 @@ const CartItems = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {cart.map((item) => (
-                <div>
-                  <Tr>
-                    <Td>
-                      <img
-                        style={{ height: "162px", width: "108px" }}
-                        src={item.img1}
-                        alt=""
-                      />
-                    </Td>
-                    <Td style={{ position: "absolute" }}>
-                      <div>{item.name}</div>
-                      <div style={{ fontSize: "14px", marginTop: "5px" }}>
-                        ${item.price}
-                      </div>
-                    </Td>
-                    {/* </Tr> */}
-                    {/* --------------------------------------------------- */}
-                    {/* <Tr> */}
-                    <Td>
-                      <div
-                        style={{
-                          display: "flex",
-                          border: "1px solid black",
-                          marginTop: "10px",
-                          padding: "5px 10px 5px 10px",
-                          width: "100px",
-                          justifyContent: "space-between",
-                          marginBottom: "20px",
-                          position: "absolute",
-                          left: "800px",
-                        }}
-                      >
-                        <button
-                          disabled={count == 0}
-                          style={{
-                            cursor: "pointer",
-                            border: "none",
-                            width: "10px",
-                          }}
-                          onClick={() => setCount(count - 1)}
-                        >
-                          -
-                        </button>
-                        <div>{count}</div>
-                        <div
-                          style={{ cursor: "pointer" }}
-                          onClick={() => setCount(count + 1)}
-                        >
-                          +
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          position: "absolute",
-                          left: "920px",
-                          marginTop: "15px",
-                        }}
-                        // onClick={() => setCartData([])}
-                      >
-                        <Icon
-                          mb="0px"
-                          ml="0px"
-                          color="rgba(18, 18, 18)"
-                          as={BsTrash}
-                          h={5}
-                          w={5}
+              {cart.map((item) => {
+                totalPrice += item.count * Number(item.cost);
+                return (
+                  <div key={item._id}>
+                    <Tr>
+                      <Td>
+                        <img
+                          style={{ height: "162px", width: "108px" }}
+                          src={item.front}
+                          alt=""
                         />
-                      </div>
-                    </Td>
-                    <Td>
-                      <div style={{ position: "absolute", left: "1210px" }}>
-                        ${count * item.price}
-                      </div>
-                    </Td>
-                  </Tr>
-                  <TotalAmountFn count={count} item={item} />
-                </div>
-              ))}
+                      </Td>
+                      <Td style={{ position: "absolute" }}>
+                        <div>{item.title}</div>
+                        <div style={{ fontSize: "14px", marginTop: "5px" }}>
+                          ${item.cost}
+                        </div>
+                      </Td>
+                      {/* </Tr> */}
+                      {/* --------------------------------------------------- */}
+                      {/* <Tr> */}
+                      <Td>
+                        <div
+                          style={{
+                            display: "flex",
+                            border: "1px solid black",
+                            marginTop: "10px",
+                            padding: "5px 10px 5px 10px",
+                            width: "100px",
+                            justifyContent: "space-between",
+                            marginBottom: "20px",
+                            position: "absolute",
+                            left: "800px",
+                          }}
+                        >
+                          <button
+                            disabled={item.count == 0}
+                            style={{
+                              cursor: "pointer",
+                              border: "none",
+                              width: "10px",
+                            }}
+                            onClick={() =>
+                              handleCountDec(item.itemId, item.count)
+                            }
+                          >
+                            -
+                          </button>
+                          <div>{item.count}</div>
+                          <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              handleCountInc(item.itemId, item.count)
+                            }
+                          >
+                            +
+                          </div>
+                        </div>
+                        <Box
+                          style={{
+                            position: "absolute",
+                            left: "920px",
+                            marginTop: "15px",
+                          }}
+                          _hover={{ cursor: "pointer" }}
+                          onClick={() => handleDelete(item.itemId)}
+                        >
+                          <Icon
+                            mb="0px"
+                            ml="0px"
+                            color="rgba(18, 18, 18)"
+                            as={BsTrash}
+                            h={5}
+                            w={5}
+                          />
+                        </Box>
+                      </Td>
+                      <Td>
+                        <div style={{ position: "absolute", left: "1210px" }}>
+                          ${item.count * item.cost}
+                        </div>
+                      </Td>
+                    </Tr>
+                  </div>
+                );
+              })}
             </Tbody>
           </Table>
         </TableContainer>
@@ -159,7 +246,7 @@ const CartItems = () => {
                 weight: "400",
               }}
             >
-              Subtotal - ${totalAmount}
+              <div>Subtotal - $ {totalPrice}</div>
             </h1>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div
@@ -218,7 +305,7 @@ const CartItems = () => {
             </button>
           </div>
         </div>
-      </div>
+      </Box>
     </div>
   );
 };

@@ -12,8 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineStar } from "react-icons/ai";
 import { RiWechatLine } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { getUsersData } from "../redux/authReducer/action";
+// import { getUsersData } from "../redux/authReducer/action";
 
 const JewelryPage = () => {
   const params = useParams();
@@ -21,8 +23,9 @@ const JewelryPage = () => {
   const [switchImg, setSwitchImg] = useState(false);
   const id = params.id;
   console.log(typeof id, "sdfslk");
+  const dispatch = useDispatch();
 
-  const { isAuth, token } = useSelector((store) => store.AuthReducer);
+  const { token } = useSelector((store) => store.AuthReducer);
 
   const [countLoading, setCountLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
@@ -52,7 +55,7 @@ const JewelryPage = () => {
     if (!token) {
       console.log("in cart");
       setToast("please login first", "login", "warning");
-    } else if (count === 4) {
+    } else if (count === 3) {
       setToast("max order limit reached");
     } else if (token) {
       setCountLoading(true);
@@ -65,6 +68,7 @@ const JewelryPage = () => {
         .then((res) => {
           setCountLoading(false);
           console.log(res);
+          // dispatch(getUsersData(token));
         })
         .catch((err) => {
           console.log(err);
@@ -91,6 +95,7 @@ const JewelryPage = () => {
         .then((res) => {
           console.log(res, "successfull");
           setCountLoading(false);
+          // dispatch(getUsersData(token));
         })
         .catch((err) => {
           console.log(err);
@@ -112,11 +117,17 @@ const JewelryPage = () => {
           token,
           itemId: id,
           count: count,
+          category: jewel[0].category,
+          cost: jewel[0].cost,
+          flash: jewel[0].flash,
+          front: jewel[0].front,
+          title: jewel[0].title,
         })
         .then((res) => {
           setToast("Item added to cart", "added to cart", "success");
           console.log(res, "successfull");
           setCartLoading(false);
+          dispatch(getUsersData(token));
         })
         .catch((err) => {
           setToast("something went wrong", "please try again", "warning");

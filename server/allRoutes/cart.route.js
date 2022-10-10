@@ -7,7 +7,8 @@ const cart = Router();
 
 cart.post("/", async (req, res) => {
   console.log("cart trigerred");
-  const { token, itemId, count } = req.body;
+  const { token, itemId, count, category, cost, flash, front, title } =
+    req.body;
   console.log(req.body);
   jwt.verify(
     token,
@@ -18,7 +19,11 @@ cart.post("/", async (req, res) => {
       } else if (decoded) {
         await UserModel.updateOne(
           { email: decoded.email },
-          { $push: { cart: { itemId, count } } }
+          {
+            $push: {
+              cart: { itemId, count, category, cost, flash, front, title },
+            },
+          }
         );
         res.send({ msg: "item added to cart" });
       }
@@ -42,6 +47,27 @@ cart.post("/count", async (req, res) => {
           { $set: { "cart.$.count": count } }
         );
         res.send({ msg: "count incremented in cart" });
+      }
+    }
+  );
+});
+
+cart.delete("/", async (req, res) => {
+  const { token, itemId } = req.body;
+  console.log(req.body, "delete body");
+  jwt.verify(
+    token,
+    process.env.COMPANY_SECRET_KEY,
+    async function (err, decoded) {
+      if (err) {
+        res.send({ msg: "session timed out" });
+      } else if (decoded) {
+        await UserModel.updateMany(
+          { email: decoded.email },
+          { $pull: { cart: { itemId: itemId } } },
+          { multi: true }
+        );
+        res.send({ msg: "item removed from cart" });
       }
     }
   );
