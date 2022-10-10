@@ -6,12 +6,17 @@ import Collection from "../components/category/Collection";
 import Login from "../pages/LoginRegister/Login";
 import Register from "../pages/LoginRegister/Register";
 import Cart from "../pages/Cart/Cart";
+import Billing from "../pages/Billing/Billing";
 
 const AllRoutes = () => {
   return (
     <div>
       <Routes>
         <Route path="/home" element={<Home />} />
+
+        <Route path="/cart" element={<Cart />} />
+
+        <Route path="/billings" element={<Billing />} />
 
         <Route path="/account/login" element={<Login />} />
 
@@ -20,8 +25,6 @@ const AllRoutes = () => {
         <Route path="/collections/:cat" element={<Collection />} />
 
         <Route path="/collections/product/:id" element={<JewelryPage />} />
-
-        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );

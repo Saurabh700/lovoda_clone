@@ -21,7 +21,7 @@ const EmptyCart = () => {
               marginTop: "30px",
               marginBottom: "60px",
             }}
-            onClick={() => navigate("/collections/allproducts")}
+            onClick={() => navigate("/collections/All-Products")}
           >
             Continue shopping
           </button>

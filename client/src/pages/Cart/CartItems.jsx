@@ -34,6 +34,11 @@ const CartItems = () => {
 
   let totalPrice = 0;
 
+  const goToBillings = () => {
+    dispatch({ type: "ADD_TOTAL", payload: totalPrice });
+    navigate("/billings");
+  };
+
   useEffect(() => {
     dispatch(getUsersData(token));
   }, []);
@@ -299,7 +304,7 @@ const CartItems = () => {
                 marginTop: "30px",
                 marginBottom: "60px",
               }}
-              onClick={() => navigate("/billings")}
+              onClick={goToBillings}
             >
               Check out
             </button>
