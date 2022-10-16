@@ -1,6 +1,6 @@
 import { Link } from "@chakra-ui/react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const EmptyCart = () => {
   const navigate = useNavigate();
@@ -36,7 +36,13 @@ const EmptyCart = () => {
           Have an account?
         </div>
         <div style={{ marginBottom: "100px" }}>
-          <Link>Log in </Link> to check out faster.
+          <Link
+            borderBottom={"1px solid black"}
+            _hover={{ borderBottom: "2px solid black", fontWeight: "500" }}
+          >
+            <NavLink to="/account/login">Log in{"  "}</NavLink>{" "}
+          </Link>
+          to check out faster.
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -15,15 +15,23 @@ import { RiWechatLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getUsersData } from "../redux/authReducer/action";
-// import { getUsersData } from "../redux/authReducer/action";
+import { BUY_CURRENT_ITEM } from "../redux/authReducer/actionTypes";
+import { useEffect } from "react";
+import { getJewelry } from "../redux/appReducer/action";
+import { useSpeechSynthesis } from "react-speech-kit";
+import { GiSpeaker } from "react-icons/gi";
+import { Wishlist } from "../assets/wishlist/WishlistTag";
 
 const JewelryPage = () => {
   const params = useParams();
   const [count, setCount] = useState(1);
   const [switchImg, setSwitchImg] = useState(false);
   const id = params.id;
-  console.log(typeof id, "sdfslk");
   const dispatch = useDispatch();
+
+  const { speak } = useSpeechSynthesis();
+
+  const navigate = useNavigate();
 
   const { token } = useSelector((store) => store.AuthReducer);
 
@@ -40,6 +48,8 @@ const JewelryPage = () => {
     };
   });
 
+  const { cart, wishlist } = useSelector((store) => store.AuthReducer);
+
   const setToast = (title, desc, status) => {
     toast({
       title: title,
@@ -48,6 +58,15 @@ const JewelryPage = () => {
       duration: 4000,
       isClosable: true,
     });
+  };
+
+  useEffect(() => {
+    dispatch(getJewelry("All-Products"));
+  }, []);
+
+  const handleSpeech = (title) => {
+    console.log(title, "speech");
+    speak({ text: title });
   };
 
   const handleCountInc = () => {
@@ -112,28 +131,88 @@ const JewelryPage = () => {
       setToast("please login first", "login", "warning");
     } else if (token) {
       setCartLoading(true);
-      axios
-        .post("http://localhost:8080/cart", {
-          token,
-          itemId: id,
-          count: count,
-          category: jewel[0].category,
-          cost: jewel[0].cost,
-          flash: jewel[0].flash,
-          front: jewel[0].front,
-          title: jewel[0].title,
-        })
-        .then((res) => {
-          setToast("Item added to cart", "added to cart", "success");
-          console.log(res, "successfull");
+      let present = false;
+      console.log(cart, "cart");
+      cart.forEach((item) => {
+        if (item.itemId === id) {
+          present = true;
+          setToast("Item already present in cart", "", "warning");
           setCartLoading(false);
-          dispatch(getUsersData(token));
-        })
-        .catch((err) => {
-          setToast("something went wrong", "please try again", "warning");
-          console.log(err);
+        }
+      });
+      if (!present) {
+        axios
+          .post("http://localhost:8080/cart", {
+            token,
+            itemId: id,
+            count: count,
+            category: jewel[0].category,
+            cost: jewel[0].cost,
+            flash: jewel[0].flash,
+            front: jewel[0].front,
+            title: jewel[0].title,
+          })
+          .then((res) => {
+            setToast("Item added to cart", "added to cart", "success");
+            console.log(res, "successfull");
+            setCartLoading(false);
+            dispatch(getUsersData(token));
+          })
+          .catch((err) => {
+            setToast("something went wrong", "please try again", "warning");
+            console.log(err);
+            setCartLoading(false);
+          });
+      }
+    }
+  };
+
+  const handleWishlist = () => {
+    if (!token) {
+      setToast("please login first", "login", "warning");
+    } else if (token) {
+      let present = false;
+      wishlist.forEach((item) => {
+        if (item.itemId === id) {
+          present = true;
+          setToast("Item already present in wishlist", "", "warning");
           setCartLoading(false);
-        });
+        }
+      });
+      if (!present) {
+        axios
+          .post("http://localhost:8080/wishlist", {
+            token,
+            itemId: id,
+            count: count,
+            category: jewel[0].category,
+            cost: jewel[0].cost,
+            flash: jewel[0].flash,
+            front: jewel[0].front,
+            title: jewel[0].title,
+          })
+          .then((res) => {
+            setToast("Item added to wishlist", "added to wishlist", "success");
+            console.log(res, "successfull");
+            setCartLoading(false);
+            dispatch(getUsersData(token));
+          })
+          .catch((err) => {
+            setToast("something went wrong", "please try again", "warning");
+            console.log(err);
+            setCartLoading(false);
+          });
+      }
+    }
+  };
+
+  const buyNow = () => {
+    if (!token) {
+      console.log("in cart");
+      setToast("please login first", "login", "warning");
+    } else if (token) {
+      dispatch({ type: BUY_CURRENT_ITEM, payload: jewel[0].cost });
+      navigate("/billings");
     }
   };
 
@@ -180,7 +259,11 @@ const JewelryPage = () => {
               mt="50px"
             >
               {item.title}
+              <button onClick={() => handleSpeech(item.title)}>
+                <Icon w={7} h={7} pt={1} color="#c9ac92" as={GiSpeaker} />
+              </button>
             </Heading>
+
             <Flex justifyContent={"flex-start"}>
               <Icon w={5} h={5} color="#c9ac92" as={AiOutlineStar} />
               <Icon w={5} h={5} color="#c9ac92" as={AiOutlineStar} />
@@ -288,6 +371,7 @@ const JewelryPage = () => {
             <Button
               p={"5px 10px"}
               m="5px"
+              onClick={handleWishlist}
               w={"100%"}
               _hover={{ backgroundColor: "white", border: "1px solid #edf2f7" }}
             >
@@ -304,12 +388,14 @@ const JewelryPage = () => {
                 color: "black",
                 border: "1px solid black",
               }}
+              onClick={buyNow}
             >
               Buy it now
             </Button>
           </Box>
         </Flex>
       ))}
+      <Wishlist />
     </div>
   );
 };

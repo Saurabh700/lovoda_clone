@@ -1,6 +1,4 @@
 .wrapper {
-  width: 1100px;
-  /* border: 1px solid black; */
   margin: auto;
 }
 
@@ -10,9 +8,10 @@
   font-weight: 400;
   height: 52px;
   letter-spacing: 0.6;
-  margin: 25px;
+  margin-top: 25px;
+  /* margin: 25px;
   margin-right: auto;
-  margin-left: 0%;
+  margin-left: 20px; */
   text-align: left;
   margin-bottom: 70px;
 }

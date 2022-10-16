@@ -7,13 +7,27 @@ import InstaImg from "../../assets/allAboutEffects/InstaImg/InstaImg";
 import styles from "./home.module.css";
 import { getHome } from "../../redux/appReducer/action";
 import { getUsersData } from "../../redux/authReducer/action";
+import { Wishlist } from "../../assets/wishlist/WishlistTag";
+import { useCallback } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { jewelryItems } = useSelector((store) => store.AppReducer);
   const { token, wishlist } = useSelector((store) => store.AuthReducer);
+  const [count, setCount] = useState(0);
+
+  const updateWishlist = () => {
+    setCount((prev) => prev + 1);
+  };
 
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 100);
+  }, [count]);
 
   useEffect(() => {
     dispatch(getHome);
@@ -24,9 +38,7 @@ const Home = () => {
 
   setTimeout(() => {
     setLoading(false);
-  }, 1500);
-
-  console.log(wishlist);
+  }, 1000);
 
   return (
     <div>
@@ -43,7 +55,7 @@ const Home = () => {
       </div>
 
       <Grid
-        w={["269px", "583px", "540px", "807px", "1076px"]}
+        w={["269px", "530px", "540px", "807px", "1076px"]}
         m="auto"
         mt={20}
         templateColumns={[
@@ -51,7 +63,7 @@ const Home = () => {
           "repeat(2,1fr)",
           "repeat(2,1fr)",
           "repeat(3,1fr)",
-          "repeat(4, 1fr)",
+          "repeat(4,1fr)",
         ]}
         gap={1}
       >
@@ -88,6 +100,7 @@ const Home = () => {
           <InstaImg />
         </Box>
       </Box>
+      <Wishlist updateWishlist={updateWishlist} />
     </div>
   );
 };

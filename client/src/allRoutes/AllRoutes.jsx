@@ -7,6 +7,9 @@ import Login from "../pages/LoginRegister/Login";
 import Register from "../pages/LoginRegister/Register";
 import Cart from "../pages/Cart/Cart";
 import Billing from "../pages/Billing/Billing";
+import Razorpay from "../pages/Payment/Razorpay";
+import OrderComplete from "../pages/Billing/OrderComplete";
+import Profile from "../pages/LoginRegister/Profile";
 
 const AllRoutes = () => {
   return (
@@ -20,11 +23,17 @@ const AllRoutes = () => {
 
         <Route path="/account/login" element={<Login />} />
 
+        <Route path="/account/profile" element={<Profile />} />
+
+        <Route path="/billing/payment" element={<Razorpay />} />
+
         <Route path="/account/register" element={<Register />} />
 
         <Route path="/collections/:cat" element={<Collection />} />
 
         <Route path="/collections/product/:id" element={<JewelryPage />} />
+
+        <Route path="/ordercomplete" element={<OrderComplete />} />
       </Routes>
     </div>
   );

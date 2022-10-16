@@ -1,6 +1,14 @@
-import { Button, Image, Link, Spinner, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Input,
+  Spinner,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
-import styles from "./LoginRegister.module.css";
 import axios from "axios";
 import { saveData } from "../../utils/localStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +17,11 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
 } from "../../redux/authReducer/actionTypes";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({});
 
   const { isLoading } = useSelector((store) => store.AuthReducer);
@@ -34,13 +45,14 @@ const Login = () => {
       <Button
         type="submit"
         style={{
-          padding: "10px",
+          padding: "15px",
           backgroundColor: "black",
           color: "white",
-          width: "100px",
+          width: "110px",
           fontWeight: "500",
           marginTop: "30px",
-          marginBottom: "150px",
+          marginBottom: "50px",
+          borderRadius: "0px",
         }}
       >
         {isLoading ? <Spinner /> : "Sign in"}
@@ -125,10 +137,13 @@ const Login = () => {
     }
   };
 
+  const handleForgetpassword = () => {
+    setToast("Feature under construction", "", "warning");
+  };
+
   return (
     <div
       style={{
-        width: "448px",
         margin: "auto",
         fontSize: "14px",
         fontWeight: "400",
@@ -139,139 +154,101 @@ const Login = () => {
           marginTop: "50px",
           fontSize: "40px",
           letterSpacing: "0.6px",
-          fontWeight: "400",
+          fontWeight: "500",
           textAlign: "center",
-          marginBottom: "50px",
+          marginBottom: "40px",
         }}
       >
         Login
       </div>
-      <button
-        style={{
-          paddingLeft: "-50px",
-          borderRadius: "0px",
-          backgroundColor: "transparent",
-          border: "2px solid #1771e6",
-          height: "50px",
-        }}
-      >
-        <Image
-          h={5}
-          w={6}
-          ml={90}
-          mt={1}
-          src="https://www.facebook.com/images/fb_icon_325x325.png"
-          alt="fb logo"
-        />
-        <div
-          style={{
-            marginRight: "80px",
-            marginTop: "-20px",
-            marginLeft: "30px",
-            color: "#1771e6",
-          }}
-        >
-          Continue with Facebook
-        </div>
-      </button>
 
-      <div className={styles.google}>
-        <button
-          style={{
-            paddingLeft: "-50px",
-            borderRadius: "0px",
-            backgroundColor: "transparent",
-            border: "none",
-            height: "50px",
-          }}
-        >
+      <Box
+        m={"auto"}
+        w={["300px", "350px", "350px", "448px"]}
+        border="2px solid #1771e6"
+        p={3}
+        mb={3}
+        cursor="pointer"
+      >
+        <Flex justifyContent={"center"}>
           <Image
             h={5}
-            w={6}
-            ml={90}
-            mt={3}
-            src="https://banner2.cleanpng.com/20180324/sww/kisspng-google-logo-g-suite-chrome-5ab6e618b3b2c3.5810634915219358967361.jpg"
+            w={5}
+            mr={2}
+            src="https://www.facebook.com/images/fb_icon_325x325.png"
+            alt="fb logo"
           />
           <div
             style={{
-              marginRight: "80px",
-              marginTop: "-25px",
-              fontSize: "18px",
-              fontWeight: "400",
+              color: "#1771e6",
             }}
           >
-            Google
+            Continue with Facebook
           </div>
-        </button>
-      </div>
-      <button
-        style={{
-          paddingLeft: "-50px",
-          borderRadius: "0px",
-          backgroundColor: "#f3993e",
-          border: "none",
-          height: "50px",
-        }}
+        </Flex>
+      </Box>
+
+      <Box
+        boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px"
+        m={"auto"}
+        w={["300px", "350px", "350px", "448px"]}
+        p={3}
+        alignItems={"center"}
+        cursor="pointer"
+        mb={3}
       >
-        <Image
-          h={5}
-          w={12}
-          ml={79}
-          mt={-1}
-          position="absolute"
-          src="https://therevolvingdoorproject.org/wp-content/uploads/2021/02/amazon-logo.jpg"
-        />
-        <div
-          style={{
-            marginRight: "80px",
-            position: "relative",
-            top: "9px",
-            color: "white",
-            backgroundColor: "#f3993e",
-            marginTop: "-20px",
-            marginLeft: "140px",
-            fontSize: "18px",
-            fontWeight: "400",
-            width: "100px",
-          }}
-        >
-          Amazon
-        </div>
-      </button>
+        <Flex justifyContent={"center"}>
+          <Image
+            h={5}
+            w={5}
+            mr={14}
+            ml={-12}
+            src="https://banner2.cleanpng.com/20180324/sww/kisspng-google-logo-g-suite-chrome-5ab6e618b3b2c3.5810634915219358967361.jpg"
+            alt="gog logo"
+          />
+          <Text fontSize={"16px"}>Google</Text>
+        </Flex>
+      </Box>
 
-      <div>
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            width: "350px",
-            padding: "15px",
-            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-            margin: "auto",
-            backgroundColor: "white",
-          }}
-        >
-          <div>
-            <Text
-              ml={4}
-              pb={5}
-              fontSize="18px"
-              fontWeight="semibold"
-              textAlign={"left"}
-              mt={5}
-            >
-              Login
-            </Text>
-          </div>
+      <Box
+        backgroundColor="#f3993e"
+        m={"auto"}
+        w={["300px", "350px", "350px", "448px"]}
+        p={3}
+        alignItems={"center"}
+        cursor="pointer"
+        mt={4}
+      >
+        <Flex justifyContent={"center"}>
+          <Image
+            h={5}
+            w={12}
+            mr={10}
+            mt={1}
+            ml={"-40px"}
+            src="https://therevolvingdoorproject.org/wp-content/uploads/2021/02/amazon-logo.jpg"
+            alt="amazon logo"
+          />
+          <Text color={"white"} fontSize={"18px"} fontWeight="400">
+            Amazon
+          </Text>
+        </Flex>
+      </Box>
 
+      <Box mt={5} m={"auto"} w={["300px", "350px", "350px", "448px"]}>
+        <form onSubmit={handleSubmit}>
           <div>
-            <input
+            <Input
               style={{
-                width: "280px",
-                padding: "5px",
-                borderRadius: "0px",
-                border: "1px solid #c6d2d9",
-                marginBottom: "10px",
+                padding: "15px",
+                height: "50px",
+                border: "1px solid black",
               }}
+              m={"auto"}
+              mt={7}
+              borderRadius={0}
+              w={["300px", "350px", "350px", "448px"]}
               ref={emailRef}
               type="email"
               placeholder="Email"
@@ -280,14 +257,16 @@ const Login = () => {
             />
           </div>
           <div>
-            <input
+            <Input
               style={{
-                width: "280px",
-                padding: "5px",
+                padding: "15px",
                 borderRadius: "0px",
-                border: "1px solid #c6d2d9",
-                marginBottom: "10px",
+                border: "1px solid black",
+                height: "50px",
               }}
+              m={"auto"}
+              mt={5}
+              w={["300px", "350px", "350px", "448px"]}
               ref={passRef}
               type="password"
               placeholder="Password"
@@ -295,13 +274,35 @@ const Login = () => {
               onChange={handleChange}
             />
           </div>
-          <div style={{ textAlign: "left" }}>
-            <Link>Forgot your password?</Link>
-          </div>
+          <Text
+            borderBottom={"1px solid black"}
+            mb={"30px"}
+            width={"135px"}
+            mt={"10px"}
+            borderTop="1px solid transparent"
+            _hover={{
+              borderBottom: "2px solid black",
+              borderTop: "none",
+              cursor: "pointer",
+            }}
+            onClick={handleForgetpassword}
+          >
+            Forgot your password?
+          </Text>
 
           <ToastExample />
+          <Text
+            borderBottom={"1px solid black"}
+            margin={"auto"}
+            mb={"100px"}
+            width={"90px"}
+            _hover={{ borderBottom: "2px solid black", cursor: "pointer" }}
+            onClick={() => navigate("/account/register")}
+          >
+            Create account
+          </Text>
         </form>
-      </div>
+      </Box>
     </div>
   );
 };

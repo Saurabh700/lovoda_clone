@@ -14,17 +14,17 @@ function App() {
   const { token } = useSelector((store) => store.AuthReducer);
 
   useEffect(() => {
-    if (window.location.href === "http://localhost:3000/") {
-      navigate("/home");
-    }
-  }, [navigate]);
-
-  useEffect(() => {
     if (token) {
       // console.log("i am sending data");
       dispatch(getUsersData(token));
     }
   }, []);
+
+  useEffect(() => {
+    if (window.location.href === "http://localhost:3000/") {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   return (
     <div className="App">

@@ -4,6 +4,7 @@
   text-align: center;
   color: rgb(18, 18, 18);
   font-family: "Assistant", sans-serif;
+  overflow-x: hidden;
 }
 
 .App-logo {
@@ -66,4 +67,37 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@media (max-width: 420px) {
+  .pagination {
+    font-size: 13px;
+    gap: 3px;
+  }
+
+  .pagination > * {
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 400;
+  }
+}
+
+.rotate {
+  transform: rotate(270deg) !important;
+  position: fixed !important;
+  right: -51px;
+  height: 50px;
+  padding-bottom: 10px;
+  padding-left: 50px !important;
+  padding-right: 20px !important;
+  height: 50px;
+  top: 45vh !important;
+  border: none !important;
+  background-color: #f4ecec !important;
+  color: rgb(18, 18, 18) !important;
+  font-family: "Poppins", sans-serif !important;
+  border-top-right-radius: 15px !important;
+  border-top-left-radius: 15px !important;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
 }

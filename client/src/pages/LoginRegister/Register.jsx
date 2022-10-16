@@ -6,16 +6,14 @@ import {
   Text,
   useToast,
   Spinner,
+  Flex,
+  Input,
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./LoginRegister.module.css";
 import {
-  USER_LOGIN_FAILURE,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
   USER_REGISTER_FAILURE,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
@@ -56,6 +54,7 @@ const Register = () => {
   function ToastExample() {
     return (
       <Button
+        borderRadius="0px"
         w="100px"
         color={"white"}
         fontSize="14px"
@@ -160,7 +159,6 @@ const Register = () => {
   return (
     <div
       style={{
-        width: "448px",
         margin: "auto",
         fontSize: "14px",
         fontWeight: "400",
@@ -171,222 +169,191 @@ const Register = () => {
           marginTop: "50px",
           fontSize: "40px",
           letterSpacing: "0.6px",
-          fontWeight: "400",
+          fontWeight: "500",
           textAlign: "center",
-          marginBottom: "50px",
+          marginBottom: "40px",
         }}
       >
-        Register
+        Create account
       </div>
-      <button
-        style={{
-          paddingLeft: "-50px",
-          borderRadius: "0px",
-          backgroundColor: "transparent",
-          border: "2px solid #1771e6",
-          height: "50px",
-        }}
-      >
-        <Image
-          h={5}
-          w={6}
-          ml={90}
-          mt={1}
-          src="https://www.facebook.com/images/fb_icon_325x325.png"
-          alt="fb logo"
-        />
-        <div
-          style={{
-            marginRight: "80px",
-            marginTop: "-20px",
-            marginLeft: "30px",
-            color: "#1771e6",
-          }}
-        >
-          Continue with Facebook
-        </div>
-      </button>
 
-      <div className={styles.google}>
-        <button
-          style={{
-            paddingLeft: "-50px",
-            borderRadius: "0px",
-            backgroundColor: "transparent",
-            border: "none",
-            height: "50px",
-          }}
-        >
+      <Box
+        _hover={{ cursor: "pointer" }}
+        m={"auto"}
+        w={["300px", "350px", "350px", "448px"]}
+        border="2px solid #1771e6"
+        p={3}
+        mb={3}
+      >
+        <Flex justifyContent={"center"}>
           <Image
             h={5}
-            w={6}
-            ml={90}
-            mt={3}
-            src="https://banner2.cleanpng.com/20180324/sww/kisspng-google-logo-g-suite-chrome-5ab6e618b3b2c3.5810634915219358967361.jpg"
+            w={5}
+            mr={2}
+            src="https://www.facebook.com/images/fb_icon_325x325.png"
+            alt="fb logo"
           />
           <div
             style={{
-              marginRight: "80px",
-              marginTop: "-25px",
-              fontSize: "18px",
-              fontWeight: "400",
+              color: "#1771e6",
             }}
           >
-            Google
+            Continue with Facebook
           </div>
-        </button>
-      </div>
-      <button
-        style={{
-          paddingLeft: "-50px",
-          borderRadius: "0px",
-          backgroundColor: "#f3993e",
-          border: "none",
-          height: "50px",
-        }}
-      >
-        <Image
-          h={5}
-          w={12}
-          ml={79}
-          mt={-1}
-          position="absolute"
-          src="https://therevolvingdoorproject.org/wp-content/uploads/2021/02/amazon-logo.jpg"
-        />
-        <div
-          style={{
-            marginRight: "80px",
-            position: "relative",
-            top: "9px",
-            color: "white",
-            backgroundColor: "#f3993e",
-            marginTop: "-20px",
-            marginLeft: "140px",
-            fontSize: "18px",
-            fontWeight: "400",
-            width: "100px",
-          }}
-        >
-          Amazon
-        </div>
-      </button>
+        </Flex>
+      </Box>
 
-      <form
-        onSubmit={handleOnSubmit}
-        style={{
-          width: "350px",
-          padding: "15px",
-          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-          margin: "auto",
-          backgroundColor: "white",
-        }}
+      <Box
+        _hover={{ cursor: "pointer" }}
+        boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+        m={"auto"}
+        w={["300px", "350px", "350px", "448px"]}
+        p={3}
+        alignItems={"center"}
+        mb={3}
       >
-        <div>
-          <Text
-            ml={4}
-            pb={5}
-            fontSize="18px"
-            fontWeight="semibold"
-            textAlign={"left"}
-            mt={5}
-          >
-            Sign up
+        <Flex justifyContent={"center"}>
+          <Image
+            h={5}
+            w={5}
+            mr={14}
+            ml={-12}
+            src="https://banner2.cleanpng.com/20180324/sww/kisspng-google-logo-g-suite-chrome-5ab6e618b3b2c3.5810634915219358967361.jpg"
+            alt="gog logo"
+          />
+          <Text fontSize={"16px"}>Google</Text>
+        </Flex>
+      </Box>
+
+      <Box
+        _hover={{ cursor: "pointer" }}
+        backgroundColor="#f3993e"
+        m={"auto"}
+        w={["300px", "350px", "350px", "448px"]}
+        p={3}
+        alignItems={"center"}
+        mt={4}
+      >
+        <Flex justifyContent={"center"}>
+          <Image
+            h={5}
+            w={12}
+            mr={10}
+            mt={1}
+            ml={"-40px"}
+            src="https://therevolvingdoorproject.org/wp-content/uploads/2021/02/amazon-logo.jpg"
+            alt="amazon logo"
+          />
+          <Text color={"white"} fontSize={"18px"} fontWeight="400">
+            Amazon
           </Text>
-        </div>
-        <div>
-          <input
-            style={{
-              width: "280px",
-              padding: "6px",
-              marginBottom: "15px",
-              borderRadius: "0px",
-              border: "1px solid #c6d2d9",
-            }}
-            type="text"
-            ref={firstNameRef}
-            placeholder="First name"
-            name="firstName"
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <input
-            style={{
-              width: "280px",
-              padding: "5px",
-              borderRadius: "0px",
-              border: "1px solid #c6d2d9",
-              marginBottom: "10px",
-            }}
-            ref={lastNameRef}
-            type="text"
-            placeholder="Last name"
-            name="lastName"
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <input
-            style={{
-              width: "280px",
-              padding: "5px",
-              borderRadius: "0px",
-              border: "1px solid #c6d2d9",
-              marginBottom: "10px",
-            }}
-            ref={emailRef}
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <input
-            style={{
-              width: "280px",
-              padding: "5px",
-              borderRadius: "0px",
-              border: "1px solid #c6d2d9",
-              marginBottom: "10px",
-            }}
-            ref={passRef}
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={onChange}
-          />
-        </div>
+        </Flex>
+      </Box>
 
-        <div
-          style={{
-            display: "flex",
-            width: "280px",
-            margin: "auto",
-          }}
-        >
-          <input
-            ref={checkRef}
-            type="checkbox"
-            name="terms"
-            onChange={onChange}
-          />
-          <label style={{ fontSize: "14px", color: "#333", marginLeft: "8px" }}>
-            I agree to the {"  "}
-          </label>
-          <Link fontSize={"14px"} ml={1} color={"#03A9F4"}>
-            Terms of use
-          </Link>
-        </div>
-        <ToastExample />
-        <Box fontSize={"14px"} m={3}>
-          OR
-        </Box>
-        <Button mb={5} variant={"outline"} w={"280px"}>
-          <FcGoogle style={{ position: "relative", left: "-30px" }} />
-          <Text fontSize={"14px"}> Continue with Google</Text>
-        </Button>
-      </form>
+      <Box mt={5} m={"auto"} w={["300px", "350px", "350px", "448px"]}>
+        <form onSubmit={handleOnSubmit}>
+          <div>
+            <Input
+              style={{
+                padding: "15px",
+                height: "50px",
+                border: "1px solid black",
+              }}
+              m={"auto"}
+              mt={7}
+              borderRadius={0}
+              w={["300px", "350px", "350px", "448px"]}
+              ref={firstNameRef}
+              type="text"
+              placeholder="First name"
+              name="firstName"
+              onChange={onChange}
+            />
+          </div>
+
+          <div>
+            <Input
+              style={{
+                padding: "15px",
+                borderRadius: "0px",
+                border: "1px solid black",
+                height: "50px",
+              }}
+              m={"auto"}
+              mt={5}
+              w={["300px", "350px", "350px", "448px"]}
+              ref={lastNameRef}
+              type="text"
+              placeholder="Last name"
+              name="lastName"
+              onChange={onChange}
+            />
+          </div>
+
+          <div>
+            <Input
+              style={{
+                padding: "15px",
+                borderRadius: "0px",
+                border: "1px solid black",
+                height: "50px",
+              }}
+              m={"auto"}
+              mt={5}
+              w={["300px", "350px", "350px", "448px"]}
+              ref={emailRef}
+              type="email"
+              placeholder="Email"
+              name="email"
+              onChange={onChange}
+            />
+          </div>
+
+          <div>
+            <Input
+              style={{
+                padding: "15px",
+                borderRadius: "0px",
+                border: "1px solid black",
+                height: "50px",
+              }}
+              m={"auto"}
+              mt={5}
+              w={["300px", "350px", "350px", "448px"]}
+              ref={passRef}
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={onChange}
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              marginTop: "15px",
+              marginBottom: "15px",
+            }}
+          >
+            <input
+              ref={checkRef}
+              type="checkbox"
+              name="terms"
+              onChange={onChange}
+            />
+            <label
+              style={{ fontSize: "14px", color: "#333", marginLeft: "8px" }}
+            >
+              I agree to the {"  "}
+            </label>
+            <Link fontSize={"14px"} ml={1} color={"#03A9F4"}>
+              Terms of use
+            </Link>
+          </div>
+          <ToastExample />
+        </form>
+      </Box>
     </div>
   );
 };

@@ -1,9 +1,11 @@
 import { loadData } from "../../utils/localStorage";
 import {
+  BUY_CURRENT_ITEM,
   GET_USERS_DATA,
   USER_LOGIN_FAILURE,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
   USER_REGISTER_FAILURE,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
@@ -17,6 +19,7 @@ const initState = {
   user: loadData("user") || "",
   cart: [],
   wishlist: [],
+  buyCurrentItem: 0,
 };
 
 const reducer = (oldState = initState, { type, payload }) => {
@@ -46,6 +49,11 @@ const reducer = (oldState = initState, { type, payload }) => {
         isError: true,
         isAuth: false,
       };
+    case USER_LOGOUT:
+      return {
+        ...oldState,
+        isAuth: false,
+      };
     case USER_REGISTER_REQUEST:
       return {
         ...oldState,
@@ -72,6 +80,11 @@ const reducer = (oldState = initState, { type, payload }) => {
         ...oldState,
         cart: payload.cart,
         wishlist: payload.wishlist,
+      };
+    case BUY_CURRENT_ITEM:
+      return {
+        ...oldState,
+        buyCurrentItem: payload,
       };
     default:
       return oldState;

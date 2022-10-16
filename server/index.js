@@ -15,6 +15,7 @@ const { wishlist } = require("./allRoutes/wishlist.route");
 const { usersdata } = require("./allRoutes/usersdata.route");
 const { collections } = require("./allRoutes/collections.route");
 const { addproducts } = require("./allRoutes/addproducts.route");
+const { razorpay } = require("./allRoutes/razorpay");
 
 app.use("/home", home);
 app.use("/cart", cart);
@@ -23,6 +24,7 @@ app.use("/wishlist", wishlist);
 app.use("/usersdata", usersdata);
 app.use("/collections", collections);
 app.use("/addproducts", addproducts);
+app.use("/razorpay", razorpay);
 
 app.listen(PORT, async () => {
   try {

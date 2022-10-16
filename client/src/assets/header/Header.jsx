@@ -15,11 +15,12 @@ import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsBag } from "react-icons/bs";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchDrawer from "./Drawer";
 import styles from "./Header.module.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { saveData } from "../../utils/localStorage";
+import { useSelector } from "react-redux";
 
 const Links = [
   {
@@ -122,6 +123,16 @@ function Menu() {
 }
 
 const Header = () => {
+  const { cart } = useSelector((store) => store.AuthReducer);
+
+  const navigate = useNavigate();
+
+  const { token } = useSelector((store) => store.AuthReducer);
+
+  const handleProfile = () => {
+    token ? navigate("/account/profile") : navigate("/account/login");
+  };
+
   return (
     <div>
       <Text fontSize={["12px", "14px"]} mt={2} letterSpacing={"0.6px"} mb={2}>
@@ -167,33 +178,57 @@ const Header = () => {
           <HStack>
             <Flex>
               <SearchDrawer />
-              <NavLink to="/account/login">
-                <Icon
-                  _hover={{ transform: "scale(1.2)" }}
-                  color="rgba(18, 18, 18, 0.75)"
-                  as={AiOutlineUser}
-                  w={5}
-                  h={5}
-                  m={[1, 3]}
-                  mt={3}
-                />
-              </NavLink>
-              <NavLink to="/cart">
-                <Icon
-                  _hover={{ transform: "scale(1.2)" }}
-                  color="rgba(18, 18, 18, 0.75)"
-                  as={BsBag}
-                  m={[1, 3]}
-                  mt={3}
-                  mr={[1, 5, 5, 10]}
-                  h={5}
-                  w={5}
-                />
-              </NavLink>
+              {/* <NavLink to="/account/login"> */}
+              <Icon
+                onClick={handleProfile}
+                _hover={{ transform: "scale(1.2)" }}
+                color="rgba(18, 18, 18, 0.75)"
+                as={AiOutlineUser}
+                w={5}
+                h={5}
+                m={[1, 3]}
+                mt={3}
+              />
+              {/* </NavLink> */}
+              <Box position={"relative"}>
+                <NavLink to="/cart">
+                  <Icon
+                    _hover={{ transform: "scale(1.2)" }}
+                    color="rgba(18, 18, 18, 0.75)"
+                    as={BsBag}
+                    m={[1, 3]}
+                    mt={3}
+                    mr={[1, 5, 5, 10]}
+                    h={5}
+                    w={5}
+                  />
+                  <Box
+                    left={["13px", "24px"]}
+                    top={"6px"}
+                    w={"16px"}
+                    h={"17px"}
+                    color={"white"}
+                    paddingTop="0px"
+                    backgroundColor="black"
+                    borderRadius={"50%"}
+                    position={"absolute"}
+                  >
+                    <Text
+                      fontSize={"13px"}
+                      position={"absolute"}
+                      left={"5px"}
+                      top={"-1px"}
+                    >
+                      {cart.length}
+                    </Text>
+                  </Box>
+                </NavLink>
+              </Box>
             </Flex>
           </HStack>
         </Flex>
       </Flex>
+      <hr />
     </div>
   );
 };

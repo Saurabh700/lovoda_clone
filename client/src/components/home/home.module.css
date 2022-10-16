@@ -129,8 +129,8 @@
   box-sizing: border-box;
 }
 .btn:hover {
-  box-sizing: border-box;
-  border: 2px solid white;
+  font-weight: 600;
+  outline: 1px solid white;
 }
 .rotate {
   transform: rotate(270deg) !important;

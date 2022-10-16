@@ -1,4 +1,5 @@
 import {
+  Box,
   Checkbox,
   Flex,
   Icon,
@@ -20,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getJewelry } from "../../redux/appReducer/action";
 import { AiOutlineDown, AiOutlineSearch } from "react-icons/ai";
 import { FILTER_COST } from "../../redux/appReducer/actionTypes";
+import { Wishlist } from "../../assets/wishlist/WishlistTag";
 
 const Collection = () => {
   const dispatch = useDispatch();
@@ -46,14 +48,21 @@ const Collection = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.new}>{params.cat}</div>
-
-      <div className={styles.filter}>
+    <Box
+      w={["269px", "530px", "540px", "807px", "1076px"]}
+      m={"auto"}
+      className={styles.wrapper}
+    >
+      <Flex className={styles.new}>{params.cat}</Flex>
+      <Flex
+        w={["269px", "530px", "540px", "807px", "1076px"]}
+        m={"auto"}
+        className={styles.filter}
+      >
         <div className={styles.align}>
           <p>Filter:</p>
 
-          <Menu>
+          <Menu m={"auto"}>
             <MenuButton as={Link}>
               Actions{" "}
               <Icon
@@ -65,7 +74,11 @@ const Collection = () => {
               />
             </MenuButton>
 
-            <MenuList zIndex={2}>
+            <MenuList
+              w={["320px", "350px", "362px"]}
+              ml={["-60px", "0px"]}
+              zIndex={2}
+            >
               <Flex pt={2} pl={5}>
                 <div>The highest price is $95.00</div>
                 <div>
@@ -81,47 +94,54 @@ const Collection = () => {
                   />
                 </div>
                 <div>
-                  <Link onClick={handlePriceReset}>Reset</Link>
+                  <Link onClick={handlePriceReset} mr={["20px", "0px"]}>
+                    Reset
+                  </Link>
                 </div>
               </Flex>
 
               <MenuDivider />
 
-              <Flex p={3}>
-                <Icon
-                  className={styles.icon}
-                  as={BsCurrencyDollar}
-                  mt={2}
-                  ml={2}
-                  h={4}
-                  w={4}
-                />
-                <Input
-                  ml={2}
-                  w={120}
-                  mr={8}
-                  value={bear}
-                  onChange={(e) => setBear(e.target.value)}
-                />
-                <Icon
-                  className={styles.icon}
-                  as={BsCurrencyDollar}
-                  mt={2}
-                  h={4}
-                  w={4}
-                />
-                <Input
-                  ml={2}
-                  w={120}
-                  value={bull}
-                  onChange={(e) => setBull(e.target.value)}
-                />
-                <Flex ml={5} mt={2}>
-                  <AiOutlineSearch
+              <Flex mt={5} p={3} flexDirection={["column", "row"]}>
+                <Flex>
+                  <Icon
+                    className={styles.icon}
+                    as={BsCurrencyDollar}
+                    ml={2}
+                    h={4}
+                    w={4}
+                    mr={1}
                     mt={2}
-                    size={20}
-                    onClick={handlePriceSearch}
                   />
+                  <Input
+                    ml={2}
+                    w={[230, 120]}
+                    mr={8}
+                    m={["auto", ""]}
+                    value={bear}
+                    onChange={(e) => setBear(e.target.value)}
+                  />
+                </Flex>
+                <Flex mt={["20px", "0px"]}>
+                  <Icon
+                    className={styles.icon}
+                    as={BsCurrencyDollar}
+                    h={4}
+                    w={4}
+                    ml={2}
+                    mr={1}
+                    mt={2}
+                  />
+                  <Input
+                    ml={2}
+                    w={[230, 120]}
+                    value={bull}
+                    m={["auto", ""]}
+                    onChange={(e) => setBull(e.target.value)}
+                  />
+                </Flex>
+                <Flex justifyContent={["center"]} ml={3} mt={2} mr={2}>
+                  <AiOutlineSearch size={20} onClick={handlePriceSearch} />
                 </Flex>
               </Flex>
             </MenuList>
@@ -139,12 +159,9 @@ const Collection = () => {
               />
             </MenuButton>
 
-            <MenuList zIndex={2}>
-              <Flex justifyContent="space-between" pt={2} pl={5} w={300} pr={0}>
-                <div>0 Selected</div>
-                <div>
-                  <Link mr={5}>Reset</Link>
-                </div>
+            <MenuList w={["200px", "300px"]} ml={["-90px", "0px"]} zIndex={2}>
+              <Flex justifyContent="space-between" pt={2} pl={5} pr={0}>
+                0 Selected
               </Flex>
 
               <MenuDivider />
@@ -163,10 +180,11 @@ const Collection = () => {
         <div className={styles.align}>
           <p>{jewelryItems.length} products</p>
         </div>
-      </div>
+      </Flex>
+      <Wishlist />
 
       <PaginatedItems itemsPerPage={4} />
-    </div>
+    </Box>
   );
 };
 

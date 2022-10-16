@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { useSelector } from "react-redux";
 import CartItems from "./CartItems";
@@ -8,9 +9,9 @@ const Cart = () => {
   console.log(cart, "in cart");
 
   return (
-    <div style={{ width: "1100px", margin: "auto" }}>
+    <Box m={"auto"} w={["300px", "500px", "800", "1100px"]}>
       {cart?.length === 0 ? <EmptyCart /> : <CartItems />}
-    </div>
+    </Box>
   );
 };
 

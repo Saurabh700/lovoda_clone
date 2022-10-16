@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./Footer2.module.css";
 import { BiCopyright } from "react-icons/bi";
-import { Flex, Icon } from "@chakra-ui/react";
+import { Box, Flex, Icon } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 
 const Footer2 = () => {
   return (
-    <div className={styles.wrapper}>
+    <Box className={styles.wrapper}>
       <Flex>
         <img
           className={styles.paymentCard}
@@ -30,7 +30,7 @@ const Footer2 = () => {
         </Flex>{" "}
         by Saurabh Patel
       </Flex>
-    </div>
+    </Box>
   );
 };
 

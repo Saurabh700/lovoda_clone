@@ -26,7 +26,7 @@ const Footer1 = () => {
         <Flex className={styles.bottom}>
           <Grid
             className={styles.wrapper}
-            w={["210px", "420px", "630px", "1050px"]}
+            w={["300px", "420px", "630px", "1050px"]}
             templateColumns={[
               "repeat(1,1fr)",
               "repeat(1,1fr)",

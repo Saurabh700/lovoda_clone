@@ -83,6 +83,7 @@ function PaginatedItems() {
   };
 
   useEffect(() => {
+    console.log("useEffect is trigerring");
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(jewelryItems.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(jewelryItems.length / itemsPerPage));
@@ -95,37 +96,49 @@ function PaginatedItems() {
 
   return (
     <>
-      <Flex justifyContent={"flex-end"}>
-        <Text fontSize={"14px"} mt={2} mr={3}>
-          Currency: INR / USD
-        </Text>
+      <Flex
+        flexDirection={["column", "row"]}
+        justifyContent={"flex-start"}
+        mt={5}
+      >
+        <Flex justifyContent={"flex-start"} flexDirection={["column", "row"]}>
+          <Text fontSize={"14px"} mt={2} mr={3}>
+            Currency: INR / USD
+          </Text>
 
-        <Switch mt={2} mr={10} onChange={toggleCurrency} />
+          <Switch
+            mt={2}
+            mr={["0px", "40px"]}
+            onChange={toggleCurrency}
+            mb={5}
+          />
+        </Flex>
 
-        <Text fontSize={"14px"} mt={2} mr={3}>
-          Sort By:
-        </Text>
+        <Flex justifyContent={"center"}>
+          <Text fontSize={"14px"} mt={2} mr={3}>
+            Sort By:
+          </Text>
 
-        <Menu>
-          <MenuButton
-            fontSize={["13px"]}
-            fontWeight={"400"}
-            as={Button}
-            backgroundColor="white"
-            border={"1px solid #edf2f7"}
-            rightIcon={<AiOutlineDown />}
-            mr={5}
-          >
-            {sortBy === "Remove sort" ? "Please select type" : sortBy}
-          </MenuButton>
-          <MenuList zIndex={3}>
-            <MenuItem onClick={handleChange}>Price: Low-High</MenuItem>
-            <MenuItem onClick={handleChange}>Price: High-Low</MenuItem>
-            <MenuItem onClick={handleChange}>Name: A-Z</MenuItem>
-            <MenuItem onClick={handleChange}>Name: Z-A</MenuItem>
-            <MenuItem onClick={handleChange}>Remove sort</MenuItem>
-          </MenuList>
-        </Menu>
+          <Menu>
+            <MenuButton
+              fontSize={["13px"]}
+              fontWeight={"400"}
+              as={Button}
+              backgroundColor="white"
+              border={"1px solid #edf2f7"}
+              rightIcon={<AiOutlineDown />}
+            >
+              {sortBy === "Remove sort" ? "Please select type" : sortBy}
+            </MenuButton>
+            <MenuList zIndex={3}>
+              <MenuItem onClick={handleChange}>Price: Low-High</MenuItem>
+              <MenuItem onClick={handleChange}>Price: High-Low</MenuItem>
+              <MenuItem onClick={handleChange}>Name: A-Z</MenuItem>
+              <MenuItem onClick={handleChange}>Name: Z-A</MenuItem>
+              <MenuItem onClick={handleChange}>Remove sort</MenuItem>
+            </MenuList>
+          </Menu>
+        </Flex>
 
         {/* Items per page */}
 
@@ -158,7 +171,7 @@ function PaginatedItems() {
 
       {!isLoading && ( // for actual loading
         <Grid
-          w={["269px", "583px", "540px", "807px", "1076px"]}
+          w={["269px", "530px", "540px", "807px", "1076px"]}
           m="auto"
           mt={8}
           mb={20}
@@ -167,7 +180,7 @@ function PaginatedItems() {
             "repeat(2,1fr)",
             "repeat(2,1fr)",
             "repeat(3,1fr)",
-            "repeat(4, 1fr)",
+            "repeat(4,1fr)",
           ]}
           gap={1}
         >
@@ -184,21 +197,22 @@ function PaginatedItems() {
       )}
 
       {/* currentItems || jewelryItems */}
-
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={2}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-        containerClassName="pagination"
-        pageLinkClassName="page-num"
-        previousLinkClassName="page-num"
-        nextLinkClassName="page-num"
-        activeLinkClassName="active"
-      />
+      <Box w={["269px", "530px", "540px", "807px", "1076px"]}>
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={1}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+          activeLinkClassName="active"
+        />
+      </Box>
     </>
   );
 }

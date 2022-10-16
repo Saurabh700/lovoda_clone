@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Icon,
   Link,
   Table,
@@ -18,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getUsersData } from "../../redux/authReducer/action";
 import { useEffect } from "react";
+import { BUY_CURRENT_ITEM } from "../../redux/authReducer/actionTypes";
 
 const CartItems = () => {
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ const CartItems = () => {
 
   const goToBillings = () => {
     dispatch({ type: "ADD_TOTAL", payload: totalPrice });
+    dispatch({ type: BUY_CURRENT_ITEM, payload: 0 });
     navigate("/billings");
   };
 
@@ -294,20 +297,24 @@ const CartItems = () => {
             >
               Tax and <Link>shipping</Link> calculated at checkout
             </div>
-            <button
-              style={{
-                padding: "10px",
-                backgroundColor: "black",
-                color: "white",
-                width: "200px",
-                fontWeight: "500",
-                marginTop: "30px",
-                marginBottom: "60px",
-              }}
+            <Button
+              p={"10px"}
+              backgroundColor="black"
+              color={"white"}
+              width="200px"
+              fontWeight={"500"}
+              mt={"30px"}
+              mb={"60px"}
+              borderRadius="0px"
               onClick={goToBillings}
+              _hover={{
+                backgroundColor: "white",
+                color: "black",
+                border: "1px solid black",
+              }}
             >
               Check out
-            </button>
+            </Button>
           </div>
         </div>
       </Box>

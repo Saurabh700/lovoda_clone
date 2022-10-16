@@ -5,15 +5,16 @@ import styles from "./ImgCrate.module.css";
 import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { getUsersData } from "../../../redux/authReducer/action";
 import { useEffect } from "react";
+import { getUsersData } from "../../../redux/authReducer/action";
 
 const ImgCrate = (item) => {
   // console.log(item, "fdjlksk");
   const [toggle, setToggle] = useState(false);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { token, wishlist } = useSelector((store) => store.AuthReducer);
 
@@ -55,7 +56,7 @@ const ImgCrate = (item) => {
           setToast("Item added to wishlist", "added to wishlist", "success");
           console.log(res, "successfull");
           setToggle(true);
-          // dispatch(getUsersData(token));
+          dispatch(getUsersData(token));
         })
         .catch((err) => {
           setToast("something went wrong", "please try again", "warning");
@@ -77,7 +78,7 @@ const ImgCrate = (item) => {
           );
           console.log(res, "successfull");
           setToggle(false);
-          // dispatch(getUsersData(token));
+          dispatch(getUsersData(token));
         })
         .catch((err) => {
           setToast("something went wrong", "please try again", "warning");
