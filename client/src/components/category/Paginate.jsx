@@ -45,7 +45,7 @@ function PaginatedItems() {
     setLoading(false);
   }, 1500);
 
-  // console.log(jewelryItems);
+  console.log(jewelryItems);
 
   const handleChange = useCallback(
     ({ target: { textContent } }) => {

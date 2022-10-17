@@ -13,3 +13,11 @@
 ### Problem2 » Page was getting rerendered before i got the data from api » to solve that i have used a useTimeout to load that component after 1 second
 
 #### Problem 3 » when i was removing items from wishlist then dom wasnt rerendering because on dom there jewelery array and we are modifying wishlist array thats why useSelector wont rerender jewelery array when wishlist array gets modified thats why i passed a setCount to wishlist component and i was modifying setcount when item gets deleted and this setCount is used as a dependency array to useEffect in which i am manipulating setLoading to rerender jewelry items in Home.jsx
+
+#### Extra feature which is not originally in the website
+
+## heart also beats when user clicks on it
+
+## user can compare usd to inr
+
+## text to speech

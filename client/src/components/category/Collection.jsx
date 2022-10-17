@@ -44,7 +44,10 @@ const Collection = () => {
   };
 
   const handlePriceSearch = () => {
-    return dispatch({ type: FILTER_COST, payload: [bear, bull] });
+    dispatch(getJewelry(params.cat));
+    setTimeout(() => {
+      dispatch({ type: FILTER_COST, payload: [bear, bull] });
+    }, 300);
   };
 
   return (

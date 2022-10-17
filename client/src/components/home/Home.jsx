@@ -8,25 +8,25 @@ import styles from "./home.module.css";
 import { getHome } from "../../redux/appReducer/action";
 import { getUsersData } from "../../redux/authReducer/action";
 import { Wishlist } from "../../assets/wishlist/WishlistTag";
-import { useCallback } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { jewelryItems } = useSelector((store) => store.AppReducer);
-  const { token, wishlist } = useSelector((store) => store.AuthReducer);
+  const { token } = useSelector((store) => store.AuthReducer);
   const [count, setCount] = useState(0);
+
+  const [loading, setLoading] = useState(true);
 
   const updateWishlist = () => {
     setCount((prev) => prev + 1);
   };
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
+    //this is rerendering jewelryItems when any item is removed from wishlist
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 100);
+    }, 500);
   }, [count]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Home = () => {
     if (token) {
       dispatch(getUsersData(token));
     }
-  }, []);
+  }, [dispatch, token]);
 
   setTimeout(() => {
     setLoading(false);
@@ -55,12 +55,12 @@ const Home = () => {
       </div>
 
       <Grid
-        w={["269px", "530px", "540px", "807px", "1076px"]}
+        w={["269px", "269px", "540px", "807px", "1076px"]}
         m="auto"
         mt={20}
         templateColumns={[
           "repeat(1,1fr)",
-          "repeat(2,1fr)",
+          "repeat(1,1fr)",
           "repeat(2,1fr)",
           "repeat(3,1fr)",
           "repeat(4,1fr)",
@@ -68,7 +68,7 @@ const Home = () => {
         gap={1}
       >
         {loading ? (
-          <Box w={["269px", "583px", "540px", "807px", "1076px"]}>
+          <Box w={["269px", "583px", "540px", "807px", "1076px"]} h={"600px"}>
             <Spinner m={"auto"} />
           </Box>
         ) : (

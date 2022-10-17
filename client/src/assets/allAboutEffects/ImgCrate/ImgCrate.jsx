@@ -25,12 +25,13 @@ const ImgCrate = (item) => {
       title: title,
       description: desc,
       status: status,
-      duration: 4000,
+      duration: 1000,
       isClosable: true,
     });
   };
 
   useEffect(() => {
+    console.log("wishlist trigerred inside useeffect");
     wishlist.forEach((jewel) => {
       if (jewel.itemId === item._id) {
         setToggle(true);
@@ -92,21 +93,25 @@ const ImgCrate = (item) => {
       <div onClick={handleToggle} className={styles.wishBack}>
         {!toggle && (
           <Icon
+            transition={"0.3s ease-in-out"}
             className={styles.emptyHeartAlone}
             color="#c9ac92"
             as={AiOutlineHeart}
             h={5}
             w={5}
+            _hover={{ transform: "scale(1.2)" }}
           />
         )}
 
         {toggle && (
           <Icon
+            transition={"0.2s ease-in-out"}
             className={styles.filledHeart}
             color="#c9ac92"
             as={AiFillHeart}
             h={5}
             w={5}
+            _hover={{ transform: "scale(1.2)" }}
           />
         )}
       </div>

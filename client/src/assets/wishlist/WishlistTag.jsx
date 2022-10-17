@@ -150,7 +150,11 @@ export function Wishlist(props) {
             SHARE:
             <Flex mt={5} ml={-8} mb={10}>
               {" "}
-              <a target={"_blank"} href={"https://www.facebook.com/"}>
+              <a
+                target={"_blank"}
+                rel="noreferrer"
+                href={"https://www.facebook.com/"}
+              >
                 <Icon
                   borderRadius="50%"
                   border="1px solid grey"
@@ -163,7 +167,11 @@ export function Wishlist(props) {
                   cursor="pointer"
                 />
               </a>
-              <a target={"_blank"} href="https://www.twitter.com/">
+              <a
+                target={"_blank"}
+                rel="noreferrer"
+                href="https://www.twitter.com/"
+              >
                 <Icon
                   borderRadius="50%"
                   border="1px solid grey"
@@ -176,7 +184,11 @@ export function Wishlist(props) {
                   as={AiOutlineTwitter}
                 />
               </a>
-              <a target={"_blank"} href="https://www.pinterest.com">
+              <a
+                target={"_blank"}
+                rel="noreferrer"
+                href="https://www.pinterest.com"
+              >
                 <Icon
                   borderRadius="50%"
                   border="1px solid grey"
@@ -189,7 +201,11 @@ export function Wishlist(props) {
                   as={FaPinterestP}
                 />
               </a>
-              <a href="mailto:psaurabh700.sp@gmail.com" target={"_blank"}>
+              <a
+                href="mailto:psaurabh700.sp@gmail.com"
+                rel="noreferrer"
+                target={"_blank"}
+              >
                 <Icon
                   borderRadius="50%"
                   border="1px solid grey"

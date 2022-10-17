@@ -51,7 +51,7 @@ const CartItems = () => {
       title: title,
       description: desc,
       status: status,
-      duration: 4000,
+      duration: 2000,
       isClosable: true,
     });
   };
