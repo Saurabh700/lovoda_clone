@@ -7,7 +7,7 @@ search.post("/", async (req, res) => {
   const { query } = req.body;
   console.log(query, "query");
   const products = await JewelryModel.find({
-    category: new RegExp(query, "i"),
+    title: new RegExp(query, "i"),
   }).limit(5);
   //   console.log(products);
   res.send({ msg: "collections", products });

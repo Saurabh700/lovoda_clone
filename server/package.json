@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "using this clone user can login, search and see products, add them to cart and purchase them.",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
-    "nodemon": "nodemon index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

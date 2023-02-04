@@ -55,7 +55,7 @@ account.post("/login", async (req, res) => {
           cart: isValid.cart,
           wishlist: isValid.wishlist,
         });
-      } else if (err) {
+      } else {
         res.send({
           msg: "incorrect password",
         });

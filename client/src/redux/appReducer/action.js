@@ -28,24 +28,30 @@ export const getJewelryFailure = () => ({
 
 export const getHome = (dispatch) => {
   dispatch(getJewelryRequest());
-  return axios
-    .get(`https://secret-beyond-36029.herokuapp.com/home`)
-    .then((res) => {
-      return dispatch(getJewelrySuccess(res.data.products));
-    })
-    .catch((e) => dispatch(getJewelryFailure()));
+  return (
+    axios
+      // .get(`https://secret-beyond-36029.herokuapp.com/home`)
+      .get(`http://localhost:8080/home`)
+      .then((res) => {
+        return dispatch(getJewelrySuccess(res.data.products));
+      })
+      .catch((e) => dispatch(getJewelryFailure()))
+  );
 };
 
 export const getJewelry = (path) => (dispatch) => {
   dispatch(getJewelryRequest());
-  return axios
-    .get(`https://secret-beyond-36029.herokuapp.com/collections/${path}`)
-    .then((res) => {
-      console.log(res, "res. in action");
-      return dispatch(getJewelrySuccess(res.data.products));
-    })
-    .catch((e) => {
-      console.log(e, "error in action");
-      return dispatch(getJewelryFailure());
-    });
+  return (
+    axios
+      // .get(`https://secret-beyond-36029.herokuapp.com/collections/${path}`)
+      .get(`http://localhost:8080/collections/${path}`)
+      .then((res) => {
+        console.log(res, "res. in action");
+        return dispatch(getJewelrySuccess(res.data.products));
+      })
+      .catch((e) => {
+        console.log(e, "error in action");
+        return dispatch(getJewelryFailure());
+      })
+  );
 };
