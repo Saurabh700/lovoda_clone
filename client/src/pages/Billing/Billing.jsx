@@ -67,7 +67,7 @@ const Billing = () => {
 
   async function fetchOrders() {
     const { data } = await axios.get(
-      "https://secret-beyond-36029.herokuapp.com/razorpay/list-orders"
+      "https://lovoda-clone-eta.vercel.app/razorpay/list-orders"
     );
     setOrders(data);
   }
@@ -95,7 +95,7 @@ const Billing = () => {
         try {
           setLoading(true);
           const result = await axios.post(
-            "https://secret-beyond-36029.herokuapp.com/razorpay/create-order",
+            "https://lovoda-clone-eta.vercel.app/razorpay/create-order",
             {
               amount: orderAmount + "00",
             }
@@ -104,7 +104,7 @@ const Billing = () => {
           const {
             data: { key: razorpayKey },
           } = await axios.get(
-            "https://secret-beyond-36029.herokuapp.com/razorpay/get-razorpay-key"
+            "https://lovoda-clone-eta.vercel.app/razorpay/get-razorpay-key"
           );
 
           const options = {
@@ -116,7 +116,7 @@ const Billing = () => {
             order_id: order_id,
             handler: async function (response) {
               const result = await axios.post(
-                "https://secret-beyond-36029.herokuapp.com/razorpay/pay-order",
+                "https://lovoda-clone-eta.vercel.app/razorpay/pay-order",
                 {
                   amount: amount,
                   razorpayPaymentId: response.razorpay_payment_id,

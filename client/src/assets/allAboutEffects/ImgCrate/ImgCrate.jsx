@@ -44,7 +44,7 @@ const ImgCrate = (item) => {
       setToast("please login first", "login", "warning");
     } else if (!toggle) {
       axios
-        .post("https://secret-beyond-36029.herokuapp.com/wishlist", {
+        .post("https://lovoda-clone-eta.vercel.app/wishlist", {
           token,
           itemId: item._id,
           front: item.front,
@@ -65,7 +65,7 @@ const ImgCrate = (item) => {
         });
     } else if (toggle) {
       axios
-        .delete("https://secret-beyond-36029.herokuapp.com/wishlist", {
+        .delete("https://lovoda-clone-eta.vercel.app/wishlist", {
           data: {
             token,
             itemId: item._id,

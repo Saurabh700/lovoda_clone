@@ -29,7 +29,7 @@ function SearchDrawer() {
   const searchByName = () => {
     setQuery(searchRef.current?.value);
     axios
-      .post("https://secret-beyond-36029.herokuapp.com/search", { query })
+      .post("https://lovoda-clone-eta.vercel.app/search", { query })
       .then((res) => {
         setSearchitems(res.data.products);
         console.log(searchItems, "search");

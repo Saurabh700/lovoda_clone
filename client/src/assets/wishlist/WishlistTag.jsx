@@ -34,7 +34,7 @@ export function Wishlist() {
 
   const handleRemoveItem = (id) => {
     axios
-      .delete("https://secret-beyond-36029.herokuapp.com/wishlist", {
+      .delete("https://lovoda-clone-eta.vercel.app/wishlist", {
         data: {
           token,
           itemId: id,

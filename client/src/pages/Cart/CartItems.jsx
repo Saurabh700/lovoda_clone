@@ -64,7 +64,7 @@ const CartItems = () => {
       setToast("min order limit reached");
     } else if (token) {
       axios
-        .post("https://secret-beyond-36029.herokuapp.com/cart/count", {
+        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
           token,
           itemId: id,
           count: count - 1,
@@ -88,7 +88,7 @@ const CartItems = () => {
       setToast("max order limit reached");
     } else if (token) {
       axios
-        .post("https://secret-beyond-36029.herokuapp.com/cart/count", {
+        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
           token,
           itemId: id,
           count: count + 1,
@@ -105,7 +105,7 @@ const CartItems = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete("https://secret-beyond-36029.herokuapp.com/cart", {
+      .delete("https://lovoda-clone-eta.vercel.app/cart", {
         data: {
           token,
           itemId: id,

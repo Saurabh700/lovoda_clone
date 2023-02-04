@@ -79,7 +79,7 @@ const JewelryPage = () => {
     } else if (token) {
       setCountLoading(true);
       axios
-        .post("https://secret-beyond-36029.herokuapp.com/cart/count", {
+        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
           token,
           itemId: id,
           count: count + 1,
@@ -106,7 +106,7 @@ const JewelryPage = () => {
     } else if (token) {
       setCountLoading(true);
       axios
-        .post("https://secret-beyond-36029.herokuapp.com/cart/count", {
+        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
           token,
           itemId: id,
           count: count - 1,
@@ -142,7 +142,7 @@ const JewelryPage = () => {
       });
       if (!present) {
         axios
-          .post("https://secret-beyond-36029.herokuapp.com/cart", {
+          .post("https://lovoda-clone-eta.vercel.app/cart", {
             token,
             itemId: id,
             count: count,
@@ -181,7 +181,7 @@ const JewelryPage = () => {
       });
       if (!present) {
         axios
-          .post("https://secret-beyond-36029.herokuapp.com/wishlist", {
+          .post("https://lovoda-clone-eta.vercel.app/wishlist", {
             token,
             itemId: id,
             count: count,

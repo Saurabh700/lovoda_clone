@@ -98,7 +98,7 @@ const Login = () => {
     } else {
       dispatch({ type: USER_LOGIN_REQUEST });
       axios
-        .post("https://secret-beyond-36029.herokuapp.com/account/login", form)
+        .post("https://lovoda-clone-eta.vercel.app/account/login", form)
         .then((res) => {
           console.log(res.data, "log");
           if (res.data.msg === "user not found") {
