@@ -1,25 +1,32 @@
+require("dotenv").config();
 const express = require("express");
 const { connection } = require("./configs/connectDB");
-
-require("dotenv").config();
-
-const PORT = process.env.PORT || 8080;
 
 const app = express();
 
 app.use(express.json());
 
-const { home } = require("./allRoutes/home.route");
-const { collections } = require("./allRoutes/collections.route");
-const { account } = require("./allRoutes/account.route");
-const { cart } = require("./allRoutes/cart.route");
-const { addproducts } = require("./allRoutes/addproducts.route");
+const PORT = process.env.PORT || 8080;
 
-app.use("/", home);
-app.use("/collections", collections);
-app.use("/account", account);
+const { cart } = require("./allRoutes/cart.route");
+const { home } = require("./allRoutes/home.route");
+const { search } = require("./allRoutes/search.route");
+const { account } = require("./allRoutes/account.route");
+const { wishlist } = require("./allRoutes/wishlist.route");
+const { usersdata } = require("./allRoutes/usersdata.route");
+const { collections } = require("./allRoutes/collections.route");
+const { addproducts } = require("./allRoutes/addproducts.route");
+const { razorpay } = require("./allRoutes/razorpay");
+
+app.use("/home", home);
 app.use("/cart", cart);
+app.use("/search", search);
+app.use("/account", account);
+app.use("/wishlist", wishlist);
+app.use("/usersdata", usersdata);
+app.use("/collections", collections);
 app.use("/addproducts", addproducts);
+app.use("/razorpay", razorpay);
 
 app.listen(PORT, async () => {
   try {

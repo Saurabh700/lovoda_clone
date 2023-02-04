@@ -3,8 +3,6 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   HStack,
   Icon,
@@ -17,11 +15,12 @@ import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsBag } from "react-icons/bs";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchDrawer from "./Drawer";
 import styles from "./Header.module.css";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useState } from "react";
+import { saveData } from "../../utils/localStorage";
+import { useSelector } from "react-redux";
 
 const Links = [
   {
@@ -29,27 +28,27 @@ const Links = [
     title: "Home",
   },
   {
-    to: "/collections/new",
+    to: "/collections/New",
     title: "New",
   },
   {
-    to: "/collections/all-products",
+    to: "/collections/All-Products",
     title: "Shop All",
   },
   {
-    to: "/collections/earrings",
+    to: "/collections/Earrings",
     title: "Earrings",
   },
   {
-    to: "/collections/necklaces",
+    to: "/collections/Necklaces",
     title: "Necklaces",
   },
   {
-    to: "/collections/bracelets",
+    to: "/collections/Bracelets",
     title: "Bracelets",
   },
   {
-    to: "/collections/rings",
+    to: "/collections/Rings",
     title: "Rings",
   },
   {
@@ -106,11 +105,11 @@ function Menu() {
           <DrawerBody>
             {Links.map((item) => (
               <NavLink
+                onClick={onClose}
                 className={styles.crumlink}
                 style={({ isActive }) =>
                   isActive ? crumActiveStyle : crumBaseStyle
                 }
-                exact
                 to={item.to}
                 key={item.to}
               >
@@ -125,6 +124,16 @@ function Menu() {
 }
 
 const Header = () => {
+  const { cart } = useSelector((store) => store.AuthReducer);
+
+  const navigate = useNavigate();
+
+  const { token } = useSelector((store) => store.AuthReducer);
+
+  const handleProfile = () => {
+    token ? navigate("/account/profile") : navigate("/account/login");
+  };
+
   return (
     <div>
       <Text fontSize={["12px", "14px"]} mt={2} letterSpacing={"0.6px"} mb={2}>
@@ -144,7 +153,7 @@ const Header = () => {
         >
           <Menu />
           {/* p "20 50" */}
-          <HStack ml={[5, 10, 0, -50, -200]}>
+          <HStack ml={[55, 10, 115, -50, -200]}>
             <Image
               mr={4}
               src="https://cdn.shopify.com/s/files/1/0627/7388/7215/files/04122019_logo2_90x.png?v=1645644264"
@@ -158,9 +167,9 @@ const Header = () => {
                 <NavLink
                   className={styles.link}
                   style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-                  exact
                   to={item.to}
                   key={item.to}
+                  onClick={() => saveData("path", item.to)}
                 >
                   {item.title}
                 </NavLink>
@@ -170,33 +179,57 @@ const Header = () => {
           <HStack>
             <Flex>
               <SearchDrawer />
-              <NavLink to="/account/login">
-                <Icon
-                  _hover={{ transform: "scale(1.2)" }}
-                  color="rgba(18, 18, 18, 0.75)"
-                  as={AiOutlineUser}
-                  w={5}
-                  h={5}
-                  m={[1, 3]}
-                  mt={3}
-                />
-              </NavLink>
-              <NavLink to="/cart">
-                <Icon
-                  _hover={{ transform: "scale(1.2)" }}
-                  color="rgba(18, 18, 18, 0.75)"
-                  as={BsBag}
-                  m={[1, 3]}
-                  mt={3}
-                  mr={[1, 5, 5, 10]}
-                  h={5}
-                  w={5}
-                />
-              </NavLink>
+              {/* <NavLink to="/account/login"> */}
+              <Icon
+                onClick={handleProfile}
+                _hover={{ transform: "scale(1.2)" }}
+                color="rgba(18, 18, 18, 0.75)"
+                as={AiOutlineUser}
+                w={5}
+                h={5}
+                m={[1, 3]}
+                mt={3}
+              />
+              {/* </NavLink> */}
+              <Box position={"relative"}>
+                <NavLink to="/cart">
+                  <Icon
+                    _hover={{ transform: "scale(1.2)" }}
+                    color="rgba(18, 18, 18, 0.75)"
+                    as={BsBag}
+                    m={[1, 3]}
+                    mt={3}
+                    mr={[1, 5, 5, 10]}
+                    h={5}
+                    w={5}
+                  />
+                  <Box
+                    left={["13px", "24px"]}
+                    top={"6px"}
+                    w={"16px"}
+                    h={"17px"}
+                    color={"white"}
+                    paddingTop="0px"
+                    backgroundColor="black"
+                    borderRadius={"50%"}
+                    position={"absolute"}
+                  >
+                    <Text
+                      fontSize={"13px"}
+                      position={"absolute"}
+                      left={"5px"}
+                      top={"-1px"}
+                    >
+                      {cart.length}
+                    </Text>
+                  </Box>
+                </NavLink>
+              </Box>
             </Flex>
           </HStack>
         </Flex>
       </Flex>
+      <hr />
     </div>
   );
 };
