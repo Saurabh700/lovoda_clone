@@ -9,3 +9,5 @@ export const NAME_A_TO_Z = "NAME_A_TO_Z";
 export const NAME_Z_TO_A = "NAME_Z_TO_A";
 
 export const FILTER_COST = "FILTER_COST";
+export const FILTER_COST_REQUEST = "FILTER_COST_REQUEST";
+export const FILTER_COST_SUCCESS = "FILTER_COST_SUCCESS";

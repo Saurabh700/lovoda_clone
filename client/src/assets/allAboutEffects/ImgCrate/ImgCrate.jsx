@@ -44,7 +44,7 @@ const ImgCrate = (item) => {
       setToast("please login first", "login", "warning");
     } else if (!toggle) {
       axios
-        .post("http://localhost:8080/wishlist", {
+        .post("https://secret-beyond-36029.herokuapp.com/wishlist", {
           token,
           itemId: item._id,
           front: item.front,
@@ -65,7 +65,7 @@ const ImgCrate = (item) => {
         });
     } else if (toggle) {
       axios
-        .delete("http://localhost:8080/wishlist", {
+        .delete("https://secret-beyond-36029.herokuapp.com/wishlist", {
           data: {
             token,
             itemId: item._id,

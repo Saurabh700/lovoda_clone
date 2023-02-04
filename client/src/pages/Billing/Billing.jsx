@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Text, useToast } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -48,6 +48,18 @@ const Billing = () => {
     console.log(form);
   };
 
+  const toast = useToast();
+
+  const setToast = (title, desc, status) => {
+    toast({
+      title: title,
+      description: desc,
+      status: status,
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
   // ---------------Razorpay Geteway
   const [loading, setLoading] = useState(false);
   const [orderAmount, setOrderAmount] = useState(total);
@@ -55,7 +67,7 @@ const Billing = () => {
 
   async function fetchOrders() {
     const { data } = await axios.get(
-      "http://localhost:8080/razorpay/list-orders"
+      "https://secret-beyond-36029.herokuapp.com/razorpay/list-orders"
     );
     setOrders(data);
   }
@@ -64,68 +76,81 @@ const Billing = () => {
   }, []);
 
   function loadRazorpay() {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onerror = () => {
-      alert("Razorpay SDK failed to load. Are you online?");
-    };
-    script.onload = async () => {
-      try {
-        setLoading(true);
-        const result = await axios.post(
-          "http://localhost:8080/razorpay/create-order",
-          {
-            amount: orderAmount + "00",
-          }
-        );
-        const { amount, id: order_id, currency } = result.data;
-        const {
-          data: { key: razorpayKey },
-        } = await axios.get("http://localhost:8080/razorpay/get-razorpay-key");
+    if (
+      !form.firstName ||
+      !form.lastName ||
+      !form.address ||
+      !form.phone ||
+      !form.city
+    ) {
+      console.log(form, "fdskl");
+      setToast("Please enter credentials", "", "warning");
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onerror = () => {
+        alert("Razorpay SDK failed to load. Are you online?");
+      };
+      script.onload = async () => {
+        try {
+          setLoading(true);
+          const result = await axios.post(
+            "https://secret-beyond-36029.herokuapp.com/razorpay/create-order",
+            {
+              amount: orderAmount + "00",
+            }
+          );
+          const { amount, id: order_id, currency } = result.data;
+          const {
+            data: { key: razorpayKey },
+          } = await axios.get(
+            "https://secret-beyond-36029.herokuapp.com/razorpay/get-razorpay-key"
+          );
 
-        const options = {
-          key: razorpayKey,
-          amount: amount.toString(),
-          currency: currency,
-          name: "example name",
-          description: "example transaction",
-          order_id: order_id,
-          handler: async function (response) {
-            const result = await axios.post(
-              "http://localhost:8080/razorpay/pay-order",
-              {
-                amount: amount,
-                razorpayPaymentId: response.razorpay_payment_id,
-                razorpayOrderId: response.razorpay_order_id,
-                razorpaySignature: response.razorpay_signature,
-              }
-            );
-            navigate("/ordercomplete");
-            // alert(result.data.msg);
-            fetchOrders();
-          },
-          prefill: {
+          const options = {
+            key: razorpayKey,
+            amount: amount.toString(),
+            currency: currency,
             name: "example name",
-            email: "email@example.com",
-            contact: "111111",
-          },
-          notes: {
-            address: "example address",
-          },
-          theme: {
-            color: "#80c0f0",
-          },
-        };
+            description: "example transaction",
+            order_id: order_id,
+            handler: async function (response) {
+              const result = await axios.post(
+                "https://secret-beyond-36029.herokuapp.com/razorpay/pay-order",
+                {
+                  amount: amount,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpaySignature: response.razorpay_signature,
+                }
+              );
+              navigate("/ordercomplete");
+              // alert(result.data.msg);
+              fetchOrders();
+            },
+            prefill: {
+              name: "example name",
+              email: "email@example.com",
+              contact: "111111",
+            },
+            notes: {
+              address: "example address",
+            },
+            theme: {
+              color: "#80c0f0",
+            },
+          };
 
-        setLoading(false);
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-      } catch (err) {
-        alert(err);
-        setLoading(false);
-      }
-    };
-    document.body.appendChild(script);
+          setLoading(false);
+          const paymentObject = new window.Razorpay(options);
+          paymentObject.open();
+        } catch (err) {
+          alert(err);
+          setLoading(false);
+        }
+      };
+      document.body.appendChild(script);
+    }
   }
 
   return (
@@ -328,7 +353,15 @@ const Billing = () => {
                 type="text"
                 placeholder="Gift card or discount code"
               />
-              <Button onClick={handlePromo}>Apply</Button>
+              <input
+                type="submit"
+                value="Apply"
+                onClick={handlePromo}
+                className={styles.submit}
+              />
+              <Text textAlign={"left"} mt={2}>
+                Available Promocodes: LOVODA5 (for 5$ off)
+              </Text>
             </div>
             <div className={styles.total}>
               <p>Total - ${final}</p>

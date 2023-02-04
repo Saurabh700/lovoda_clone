@@ -1,5 +1,7 @@
 import {
   FILTER_COST,
+  FILTER_COST_REQUEST,
+  FILTER_COST_SUCCESS,
   GET_JEWELRY_FAILURE,
   GET_JEWELRY_REQUEST,
   GET_JEWELRY_SUCCESS,
@@ -68,13 +70,25 @@ const reducer = (oldState = initState, action) => {
         ),
       };
 
+    case FILTER_COST_REQUEST:
+      return {
+        ...oldState,
+        isLoading: true,
+      };
+
     case FILTER_COST:
       return {
         ...oldState,
         jewelryItems: oldState.jewelryItems.filter(
           (item) =>
-            item.cost >= action.payload[0] && item.cost <= action.payload[1]
+            Number(item.cost) >= Number(action.payload[0]) &&
+            Number(item.cost) <= Number(action.payload[1])
         ),
+      };
+    case FILTER_COST_SUCCESS:
+      return {
+        ...oldState,
+        isLoading: false,
       };
 
     default:

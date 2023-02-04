@@ -7,7 +7,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Select,
   Spinner,
   Switch,
   Text,
@@ -45,7 +44,7 @@ function PaginatedItems() {
     setLoading(false);
   }, 1500);
 
-  console.log(jewelryItems);
+  console.log(jewelryItems, "jewelry items in paginate");
 
   const handleChange = useCallback(
     ({ target: { textContent } }) => {
@@ -169,7 +168,9 @@ function PaginatedItems() {
 
       {isError && "something went wrong"}
 
-      {!isLoading && ( // for actual loading
+      {isLoading && <Spinner />}
+
+      {!isLoading && (
         <Grid
           w={["269px", "530px", "540px", "807px", "1076px"]}
           m="auto"
@@ -202,7 +203,7 @@ function PaginatedItems() {
           breakLabel="..."
           nextLabel=">"
           onPageChange={handlePageClick}
-          pageRangeDisplayed={1}
+          pageRangeDisplayed={2}
           pageCount={pageCount}
           previousLabel="<"
           renderOnZeroPageCount={null}

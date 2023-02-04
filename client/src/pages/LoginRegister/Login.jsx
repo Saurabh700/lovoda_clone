@@ -24,7 +24,7 @@ const Login = () => {
 
   const [form, setForm] = useState({});
 
-  const { isLoading } = useSelector((store) => store.AuthReducer);
+  const { isLoading, token } = useSelector((store) => store.AuthReducer);
 
   const emailRef = useRef();
   const passRef = useRef();
@@ -73,7 +73,13 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form);
-    if (!form.email && !form.password) {
+    if (token) {
+      setToast(
+        "Already Logged in",
+        "Please logout first from profile section",
+        "warning"
+      );
+    } else if (!form.email && !form.password) {
       setToast(
         "Please enter Credentials",
         "Registeration form should not be empty",
@@ -92,7 +98,7 @@ const Login = () => {
     } else {
       dispatch({ type: USER_LOGIN_REQUEST });
       axios
-        .post("http://localhost:8080/account/login", form)
+        .post("https://secret-beyond-36029.herokuapp.com/account/login", form)
         .then((res) => {
           console.log(res.data, "log");
           if (res.data.msg === "user not found") {

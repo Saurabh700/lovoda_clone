@@ -13,33 +13,23 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useCallback } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function SearchDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [query, setQuery] = useState("");
   const [searchItems, setSearchitems] = useState([]);
+  const searchRef = useRef(null);
 
-  const debounce = (func) => {
-    let timer;
-    return function (...args) {
-      const context = this;
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = null;
-        func.apply(context, args);
-      }, 500);
-    };
-  };
+  let debounceID;
 
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-    console.log(query, "query");
+  const searchByName = () => {
+    setQuery(searchRef.current?.value);
     axios
-      .post("http://localhost:8080/search", { query })
+      .post("https://secret-beyond-36029.herokuapp.com/search", { query })
       .then((res) => {
         setSearchitems(res.data.products);
         console.log(searchItems, "search");
@@ -49,8 +39,14 @@ function SearchDrawer() {
       });
   };
 
-  const optimisedVersion = useCallback(debounce(handleInputChange), []);
-  // on every render debounce will render a new function that we dont want thatswhy we will wrap it in useCallback » it will provide us a memoised callback
+  const debounce = (searchByName, delay) => {
+    if (debounceID) {
+      clearTimeout(debounceID);
+    }
+    debounceID = setTimeout(() => {
+      searchByName();
+    }, delay);
+  };
 
   return (
     <>
@@ -87,16 +83,11 @@ function SearchDrawer() {
           <hr />
           <HStack pt={10} w={[250, 300, 400, 500]} m={"auto"}>
             <Input
-              onChange={handleInputChange}
+              onChange={() => debounce(searchByName, 500)}
               placeholder="Search... "
               borderRadius="0"
               border={"1px solid crimson"}
-              // onKeyDownCapture={(e) => {
-              //   // console.log(e, "btn");
-              //   if (e.key === "Enter") {
-              //     navigate(`/collections/${query}`);
-              //   }
-              // }}
+              ref={searchRef}
             />
             <Icon
               mb="5px"
@@ -111,9 +102,9 @@ function SearchDrawer() {
           </HStack>
           <HStack>
             <Box margin="auto" onClick={() => setSearchitems([])}>
-              {searchItems.length > 0 &&
-                query.length > 0 &&
-                searchItems.map((item) => (
+              {searchItems?.length > 0 &&
+                query?.length > 0 &&
+                searchItems?.map((item) => (
                   <Flex
                     onClick={onClose}
                     overflowY={"scroll"}

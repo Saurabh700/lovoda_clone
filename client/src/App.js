@@ -15,13 +15,12 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      // console.log("i am sending data");
       dispatch(getUsersData(token));
     }
   }, []);
 
   useEffect(() => {
-    if (window.location.href === "http://localhost:3000/") {
+    if (window.location.href === "https://lovoda-clone-mern.netlify.app/") {
       navigate("/home");
     }
   }, [navigate]);

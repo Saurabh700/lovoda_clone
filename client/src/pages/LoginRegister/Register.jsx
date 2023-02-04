@@ -131,7 +131,10 @@ const Register = () => {
     } else {
       dispatch({ type: USER_REGISTER_REQUEST });
       axios
-        .post("http://localhost:8080/account/register", form)
+        .post(
+          "https://secret-beyond-36029.herokuapp.com/account/register",
+          form
+        )
         .then((res) => {
           console.log(res.data, "regis");
           if (res.data.msg === "already registered") {

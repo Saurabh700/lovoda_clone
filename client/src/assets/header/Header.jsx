@@ -105,6 +105,7 @@ function Menu() {
           <DrawerBody>
             {Links.map((item) => (
               <NavLink
+                onClick={onClose}
                 className={styles.crumlink}
                 style={({ isActive }) =>
                   isActive ? crumActiveStyle : crumBaseStyle

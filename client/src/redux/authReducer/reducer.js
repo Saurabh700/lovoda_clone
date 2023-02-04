@@ -2,6 +2,7 @@ import { loadData } from "../../utils/localStorage";
 import {
   BUY_CURRENT_ITEM,
   GET_USERS_DATA,
+  REQUEST_USERS_DATA,
   USER_LOGIN_FAILURE,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -75,11 +76,19 @@ const reducer = (oldState = initState, { type, payload }) => {
         isError: true,
         isAuth: false,
       };
+    case REQUEST_USERS_DATA:
+      return {
+        ...oldState,
+        isLoading: true,
+        isError: false,
+      };
     case GET_USERS_DATA:
       return {
         ...oldState,
         cart: payload.cart,
         wishlist: payload.wishlist,
+        isLoading: false,
+        isError: false,
       };
     case BUY_CURRENT_ITEM:
       return {

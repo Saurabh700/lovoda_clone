@@ -1,25 +1,10 @@
 import axios from "axios";
-import {
-  GET_USERS_DATA,
-  USER_LOGIN_FAILURE,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-} from "./actionTypes";
-
-// const login = (payload) => (dispatch) => {
-//   dispatch({ type: USER_LOGIN_REQUEST });
-
-//   return axios
-//     .post("https://reqres.in/api/login", payload)
-//     .then((res) =>
-//       dispatch({ type: USER_LOGIN_SUCCESS, payload: res.data.token })
-//     )
-//     .catch((err) => dispatch({ type: USER_LOGIN_FAILURE }));
-// };
+import { GET_USERS_DATA, REQUEST_USERS_DATA } from "./actionTypes";
 
 const getUsersData = (payload) => (dispatch) => {
+  dispatch({ type: REQUEST_USERS_DATA });
   axios
-    .get(`http://localhost:8080/usersdata/${payload}`)
+    .get(`https://secret-beyond-36029.herokuapp.com/usersdata/${payload}`)
     .then((res) => {
       console.log(res.data.user, "getting it again");
       dispatch({ type: GET_USERS_DATA, payload: res.data.user });

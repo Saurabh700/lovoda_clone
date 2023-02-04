@@ -10,6 +10,7 @@ import Billing from "../pages/Billing/Billing";
 import Razorpay from "../pages/Payment/Razorpay";
 import OrderComplete from "../pages/Billing/OrderComplete";
 import Profile from "../pages/LoginRegister/Profile";
+import ShopSocial from "../components/category/ShopSocial";
 
 const AllRoutes = () => {
   return (
@@ -29,11 +30,13 @@ const AllRoutes = () => {
 
         <Route path="/account/register" element={<Register />} />
 
+        <Route path="/ordercomplete" element={<OrderComplete />} />
+
         <Route path="/collections/:cat" element={<Collection />} />
 
-        <Route path="/collections/product/:id" element={<JewelryPage />} />
+        <Route path="/pages/shop-instagram" element={<ShopSocial />} />
 
-        <Route path="/ordercomplete" element={<OrderComplete />} />
+        <Route path="/collections/product/:id" element={<JewelryPage />} />
       </Routes>
     </div>
   );

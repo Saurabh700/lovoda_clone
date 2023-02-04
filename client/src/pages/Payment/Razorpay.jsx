@@ -10,7 +10,7 @@ const Razorpay = () => {
 
   async function fetchOrders() {
     const { data } = await axios.get(
-      "http://localhost:8080/razorpay/list-orders"
+      "https://secret-beyond-36029.herokuapp.com/razorpay/list-orders"
     );
     setOrders(data);
   }
@@ -28,7 +28,7 @@ const Razorpay = () => {
       try {
         setLoading(true);
         const result = await axios.post(
-          "http://localhost:8080/razorpay/create-order",
+          "https://secret-beyond-36029.herokuapp.com/razorpay/create-order",
           {
             amount: orderAmount + "00",
           }
@@ -36,7 +36,9 @@ const Razorpay = () => {
         const { amount, id: order_id, currency } = result.data;
         const {
           data: { key: razorpayKey },
-        } = await axios.get("http://localhost:8080/razorpay/get-razorpay-key");
+        } = await axios.get(
+          "https://secret-beyond-36029.herokuapp.com/razorpay/get-razorpay-key"
+        );
 
         const options = {
           key: razorpayKey,
@@ -47,7 +49,7 @@ const Razorpay = () => {
           order_id: order_id,
           handler: async function (response) {
             const result = await axios.post(
-              "http://localhost:8080/razorpay/pay-order",
+              "https://secret-beyond-36029.herokuapp.com/razorpay/pay-order",
               {
                 amount: amount,
                 razorpayPaymentId: response.razorpay_payment_id,

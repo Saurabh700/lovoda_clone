@@ -20,7 +20,11 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { getJewelry } from "../../redux/appReducer/action";
 import { AiOutlineDown, AiOutlineSearch } from "react-icons/ai";
-import { FILTER_COST } from "../../redux/appReducer/actionTypes";
+import {
+  FILTER_COST,
+  FILTER_COST_REQUEST,
+  FILTER_COST_SUCCESS,
+} from "../../redux/appReducer/actionTypes";
 import { Wishlist } from "../../assets/wishlist/WishlistTag";
 
 const Collection = () => {
@@ -28,6 +32,7 @@ const Collection = () => {
 
   const [bear, setBear] = useState("");
   const [bull, setBull] = useState("");
+  const [reset, setReset] = useState(false);
 
   const { jewelryItems } = useSelector((store) => store.AppReducer);
 
@@ -44,10 +49,12 @@ const Collection = () => {
   };
 
   const handlePriceSearch = () => {
-    dispatch(getJewelry(params.cat));
-    setTimeout(() => {
-      dispatch({ type: FILTER_COST, payload: [bear, bull] });
-    }, 300);
+    // dispatch(getJewelry(params.cat));
+    // dispatch({ type: FILTER_COST_REQUEST });
+    // setTimeout(() => {
+    dispatch({ type: FILTER_COST, payload: [bear, bull] });
+    // }, 500);
+    // dispatch({ type: FILTER_COST_SUCCESS });
   };
 
   return (

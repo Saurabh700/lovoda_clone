@@ -25,8 +25,7 @@ import { getUsersData } from "../../redux/authReducer/action";
 import axios from "axios";
 import { getHome } from "../../redux/appReducer/action";
 
-export function Wishlist(props) {
-  console.log(props, "item removesd");
+export function Wishlist() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const { wishlist, token } = useSelector((store) => store.AuthReducer);
@@ -35,7 +34,7 @@ export function Wishlist(props) {
 
   const handleRemoveItem = (id) => {
     axios
-      .delete("http://localhost:8080/wishlist", {
+      .delete("https://secret-beyond-36029.herokuapp.com/wishlist", {
         data: {
           token,
           itemId: id,
@@ -44,9 +43,9 @@ export function Wishlist(props) {
       .then((res) => {
         console.log(res, "successfull");
         dispatch(getUsersData(token));
-        if (window.location.href === "http://localhost:3000/home") {
+        if (window.location.href === "/home") {
           dispatch(getHome);
-          props.updateWishlist();
+          // props.updateWishlist();
           // dispatch(getUsersData(token));
           // window.location.reload();
         }
