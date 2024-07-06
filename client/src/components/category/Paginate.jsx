@@ -44,12 +44,9 @@ function PaginatedItems() {
     setLoading(false);
   }, 1500);
 
-  console.log(jewelryItems, "jewelry items in paginate");
-
   const handleChange = useCallback(
     ({ target: { textContent } }) => {
       setCount((prev) => prev + 1);
-      console.log("trigerred");
       setSortBy(textContent);
 
       switch (textContent) {
@@ -62,7 +59,6 @@ function PaginatedItems() {
         case "Name: Z-A":
           return dispatch({ type: NAME_Z_TO_A });
         default:
-          console.log("default");
       }
     },
     [count]
@@ -82,7 +78,6 @@ function PaginatedItems() {
   };
 
   useEffect(() => {
-    console.log("useEffect is trigerring");
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(jewelryItems.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(jewelryItems.length / itemsPerPage));

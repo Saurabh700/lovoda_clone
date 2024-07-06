@@ -8,7 +8,6 @@ const account = Router();
 
 account.post("/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
-  console.log(email);
   const exist = await UserModel.findOne({ email });
   if (exist) {
     res.send({ msg: "already registered" });
@@ -28,6 +27,7 @@ account.post("/register", async (req, res) => {
         res.send({ msg: "signup successfull" });
       })
       .catch((err) => {
+        console.log(err)
         res.send("something went wrong");
       });
   }
@@ -47,7 +47,6 @@ account.post("/login", async (req, res) => {
             expiresIn: "10000h",
           }
         );
-        console.log(token);
         res.send({
           msg: "Login successfull",
           token: token,

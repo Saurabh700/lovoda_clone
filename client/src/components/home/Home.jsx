@@ -14,7 +14,6 @@ const Home = () => {
   const { jewelryItems } = useSelector((store) => store.AppReducer);
   const { isLoading } = useSelector((store) => store.AppReducer);
   const { token } = useSelector((store) => store.AuthReducer);
-  console.log(isLoading, "home");
 
   useEffect(() => {
     dispatch(getHome);

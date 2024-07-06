@@ -29,10 +29,9 @@ function SearchDrawer() {
   const searchByName = () => {
     setQuery(searchRef.current?.value);
     axios
-      .post("https://lovoda-clone-eta.vercel.app/search", { query })
+      .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/search`, { query })
       .then((res) => {
         setSearchitems(res.data.products);
-        console.log(searchItems, "search");
       })
       .catch((err) => {
         console.log(err);

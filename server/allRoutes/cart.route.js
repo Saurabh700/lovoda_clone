@@ -6,10 +6,8 @@ require("dotenv").config();
 const cart = Router();
 
 cart.post("/", async (req, res) => {
-  console.log("cart trigerred");
   const { token, itemId, count, category, cost, flash, front, title } =
     req.body;
-  console.log(req.body);
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,
@@ -32,9 +30,7 @@ cart.post("/", async (req, res) => {
 });
 
 cart.post("/count", async (req, res) => {
-  console.log("count trigerred");
   const { token, itemId, count } = req.body;
-  console.log(req.body);
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,
@@ -54,7 +50,6 @@ cart.post("/count", async (req, res) => {
 
 cart.delete("/", async (req, res) => {
   const { token, itemId } = req.body;
-  console.log(req.body, "delete body");
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,

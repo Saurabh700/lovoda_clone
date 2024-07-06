@@ -11,7 +11,6 @@ import { useEffect } from "react";
 import { getUsersData } from "../../../redux/authReducer/action";
 
 const ImgCrate = (item) => {
-  // console.log(item, "fdjlksk");
   const [toggle, setToggle] = useState(false);
 
   const dispatch = useDispatch();
@@ -31,7 +30,6 @@ const ImgCrate = (item) => {
   };
 
   useEffect(() => {
-    console.log("wishlist trigerred inside useeffect");
     wishlist.forEach((jewel) => {
       if (jewel.itemId === item._id) {
         setToggle(true);
@@ -44,7 +42,7 @@ const ImgCrate = (item) => {
       setToast("please login first", "login", "warning");
     } else if (!toggle) {
       axios
-        .post("https://lovoda-clone-eta.vercel.app/wishlist", {
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlist`, {
           token,
           itemId: item._id,
           front: item.front,
@@ -55,7 +53,6 @@ const ImgCrate = (item) => {
         })
         .then((res) => {
           setToast("Item added to wishlist", "added to wishlist", "success");
-          console.log(res, "successfull");
           setToggle(true);
           dispatch(getUsersData(token));
         })
@@ -65,7 +62,7 @@ const ImgCrate = (item) => {
         });
     } else if (toggle) {
       axios
-        .delete("https://lovoda-clone-eta.vercel.app/wishlist", {
+        .delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlist`, {
           data: {
             token,
             itemId: item._id,
@@ -77,7 +74,6 @@ const ImgCrate = (item) => {
             "removed from wishlist",
             "success"
           );
-          console.log(res, "successfull");
           setToggle(false);
           dispatch(getUsersData(token));
         })

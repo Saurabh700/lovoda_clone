@@ -65,28 +65,25 @@ const JewelryPage = () => {
   }, []);
 
   const handleSpeech = (title) => {
-    console.log(title, "speech");
     speak({ text: title });
   };
 
   const handleCountInc = () => {
     setCount((prev) => prev + 1);
     if (!token) {
-      console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (count === 3) {
       setToast("max order limit reached");
     } else if (token) {
       setCountLoading(true);
       axios
-        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/cart/count`, {
           token,
           itemId: id,
           count: count + 1,
         })
         .then((res) => {
           setCountLoading(false);
-          console.log(res);
           // dispatch(getUsersData(token));
         })
         .catch((err) => {
@@ -99,20 +96,18 @@ const JewelryPage = () => {
   const handleCountDec = () => {
     setCount((prev) => prev - 1);
     if (!token) {
-      console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (count === 1) {
       setToast("min order limit reached");
     } else if (token) {
       setCountLoading(true);
       axios
-        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/cart/count`, {
           token,
           itemId: id,
           count: count - 1,
         })
         .then((res) => {
-          console.log(res, "successfull");
           setCountLoading(false);
           // dispatch(getUsersData(token));
         })
@@ -127,12 +122,10 @@ const JewelryPage = () => {
 
   const handleCart = () => {
     if (!token) {
-      console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (token) {
       setCartLoading(true);
       let present = false;
-      console.log(cart, "cart");
       cart.forEach((item) => {
         if (item.itemId === id) {
           present = true;
@@ -142,7 +135,7 @@ const JewelryPage = () => {
       });
       if (!present) {
         axios
-          .post("https://lovoda-clone-eta.vercel.app/cart", {
+          .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/cart`, {
             token,
             itemId: id,
             count: count,
@@ -154,7 +147,6 @@ const JewelryPage = () => {
           })
           .then((res) => {
             setToast("Item added to cart", "added to cart", "success");
-            console.log(res, "successfull");
             setCartLoading(false);
             dispatch(getUsersData(token));
           })
@@ -181,7 +173,7 @@ const JewelryPage = () => {
       });
       if (!present) {
         axios
-          .post("https://lovoda-clone-eta.vercel.app/wishlist", {
+          .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlist`, {
             token,
             itemId: id,
             count: count,
@@ -193,7 +185,6 @@ const JewelryPage = () => {
           })
           .then((res) => {
             setToast("Item added to wishlist", "added to wishlist", "success");
-            console.log(res, "successfull");
             setCartLoading(false);
             dispatch(getUsersData(token));
           })
@@ -208,7 +199,6 @@ const JewelryPage = () => {
 
   const buyNow = () => {
     if (!token) {
-      console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (token) {
       dispatch({ type: BUY_CURRENT_ITEM, payload: jewel[0].cost });

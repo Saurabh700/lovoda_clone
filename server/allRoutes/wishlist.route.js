@@ -7,7 +7,6 @@ const wishlist = Router();
 
 wishlist.post("/", async (req, res) => {
   const { token, itemId, front, flash, title, category, cost } = req.body;
-  console.log(req.body, "add items");
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,
@@ -31,7 +30,6 @@ wishlist.post("/", async (req, res) => {
 
 wishlist.delete("/", async (req, res) => {
   const { token, itemId } = req.body;
-  console.log(req.body, "delete body");
   jwt.verify(
     token,
     process.env.COMPANY_SECRET_KEY,

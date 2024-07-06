@@ -4,6 +4,7 @@ function loadData(key) {
     temp = JSON.parse(temp);
     return temp;
   } catch (e) {
+    console.log(e)
     return undefined;
   }
 }

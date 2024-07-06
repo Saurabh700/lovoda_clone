@@ -45,7 +45,6 @@ const Billing = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
   };
 
   const toast = useToast();
@@ -67,7 +66,7 @@ const Billing = () => {
 
   async function fetchOrders() {
     const { data } = await axios.get(
-      "https://lovoda-clone-eta.vercel.app/razorpay/list-orders"
+      `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/list-orders`
     );
     setOrders(data);
   }
@@ -83,7 +82,6 @@ const Billing = () => {
       !form.phone ||
       !form.city
     ) {
-      console.log(form, "fdskl");
       setToast("Please enter credentials", "", "warning");
     } else {
       const script = document.createElement("script");
@@ -95,7 +93,7 @@ const Billing = () => {
         try {
           setLoading(true);
           const result = await axios.post(
-            "https://lovoda-clone-eta.vercel.app/razorpay/create-order",
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/create-order`,
             {
               amount: orderAmount + "00",
             }
@@ -104,7 +102,7 @@ const Billing = () => {
           const {
             data: { key: razorpayKey },
           } = await axios.get(
-            "https://lovoda-clone-eta.vercel.app/razorpay/get-razorpay-key"
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/get-razorpay-key`
           );
 
           const options = {
@@ -116,7 +114,7 @@ const Billing = () => {
             order_id: order_id,
             handler: async function (response) {
               const result = await axios.post(
-                "https://lovoda-clone-eta.vercel.app/razorpay/pay-order",
+                `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/pay-order`,
                 {
                   amount: amount,
                   razorpayPaymentId: response.razorpay_payment_id,

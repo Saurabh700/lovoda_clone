@@ -87,7 +87,6 @@ const Register = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
     if (!form.email && !form.password && !form.firstName && !form.lastName) {
       setToast(
         "Please enter Credentials",
@@ -131,9 +130,8 @@ const Register = () => {
     } else {
       dispatch({ type: USER_REGISTER_REQUEST });
       axios
-        .post("https://lovoda-clone-eta.vercel.app/account/register", form)
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/account/register`, form)
         .then((res) => {
-          console.log(res.data, "regis");
           if (res.data.msg === "already registered") {
             setToast("Email id Already exist", "Please login", "warning");
             dispatch({ type: USER_REGISTER_FAILURE });

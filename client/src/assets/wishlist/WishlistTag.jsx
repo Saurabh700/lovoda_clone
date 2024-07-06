@@ -34,14 +34,13 @@ export function Wishlist() {
 
   const handleRemoveItem = (id) => {
     axios
-      .delete("https://lovoda-clone-eta.vercel.app/wishlist", {
+      .delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/wishlist`, {
         data: {
           token,
           itemId: id,
         },
       })
       .then((res) => {
-        console.log(res, "successfull");
         dispatch(getUsersData(token));
         if (window.location.href === "/home") {
           dispatch(getHome);

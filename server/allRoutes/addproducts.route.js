@@ -9,6 +9,7 @@ addproducts.post("/", async (req, res) => {
     await JewelryModel.insertMany(products);
     res.send({ msg: "uploaded" });
   } catch (err) {
+    console.log(err)
     res.send({ msg: "please enter data in required schema" });
   }
 });

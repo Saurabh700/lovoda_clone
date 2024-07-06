@@ -24,7 +24,6 @@ const initState = {
 };
 
 const reducer = (oldState = initState, { type, payload }) => {
-  // console.log(oldState);
   switch (type) {
     case USER_LOGIN_REQUEST:
       return {

@@ -10,7 +10,7 @@ const Razorpay = () => {
 
   async function fetchOrders() {
     const { data } = await axios.get(
-      "https://lovoda-clone-eta.vercel.app/razorpay/list-orders"
+      `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/list-orders`
     );
     setOrders(data);
   }
@@ -28,7 +28,7 @@ const Razorpay = () => {
       try {
         setLoading(true);
         const result = await axios.post(
-          "https://lovoda-clone-eta.vercel.app/razorpay/create-order",
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/create-order`,
           {
             amount: orderAmount + "00",
           }
@@ -37,7 +37,7 @@ const Razorpay = () => {
         const {
           data: { key: razorpayKey },
         } = await axios.get(
-          "https://lovoda-clone-eta.vercel.app/razorpay/get-razorpay-key"
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/get-razorpay-key`
         );
 
         const options = {
@@ -49,7 +49,7 @@ const Razorpay = () => {
           order_id: order_id,
           handler: async function (response) {
             const result = await axios.post(
-              "https://lovoda-clone-eta.vercel.app/razorpay/pay-order",
+              `${process.env.REACT_APP_BACKEND_BASE_URL}/razorpay/pay-order`,
               {
                 amount: amount,
                 razorpayPaymentId: response.razorpay_payment_id,

@@ -29,23 +29,25 @@ export const getJewelryFailure = () => ({
 export const getHome = (dispatch) => {
   dispatch(getJewelryRequest());
   return axios
-    .get(`https://lovoda-clone-eta.vercel.app/home`)
+    .get(`${process.env.REACT_APP_BACKEND_BASE_URL}/home`)
     .then((res) => {
       return dispatch(getJewelrySuccess(res.data.products));
     })
-    .catch((e) => dispatch(getJewelryFailure()));
+    .catch((e) => {
+      dispatch(getJewelryFailure());
+      console.log(e)
+  })
 };
 
 export const getJewelry = (path) => (dispatch) => {
   dispatch(getJewelryRequest());
   return axios
-    .get(`https://lovoda-clone-eta.vercel.app/collections/${path}`)
+    .get(`${process.env.REACT_APP_BACKEND_BASE_URL}/collections/${path}`)
     .then((res) => {
-      console.log(res, "res. in action");
       return dispatch(getJewelrySuccess(res.data.products));
     })
     .catch((e) => {
-      console.log(e, "error in action");
+      console.log(e);
       return dispatch(getJewelryFailure());
     });
 };

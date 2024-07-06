@@ -12,7 +12,7 @@ import {
   Tr,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,8 +31,6 @@ const CartItems = () => {
   const toast = useToast();
 
   const dispatch = useDispatch();
-
-  console.log(cart, "in cart");
 
   let totalPrice = 0;
 
@@ -58,19 +56,17 @@ const CartItems = () => {
 
   const handleCountDec = (id, count) => {
     if (!token) {
-      console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (count === 1) {
       setToast("min order limit reached");
     } else if (token) {
       axios
-        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/cart/count`, {
           token,
           itemId: id,
           count: count - 1,
         })
         .then((res) => {
-          console.log(res, "successfull");
           dispatch(getUsersData(token));
         })
         .catch((err) => {
@@ -80,21 +76,18 @@ const CartItems = () => {
   };
 
   const handleCountInc = (id, count) => {
-    console.log(id);
     if (!token) {
-      console.log("in cart");
       setToast("please login first", "login", "warning");
     } else if (count === 4) {
       setToast("max order limit reached");
     } else if (token) {
       axios
-        .post("https://lovoda-clone-eta.vercel.app/cart/count", {
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/cart/count`, {
           token,
           itemId: id,
           count: count + 1,
         })
         .then((res) => {
-          console.log(res);
           dispatch(getUsersData(token));
         })
         .catch((err) => {
@@ -105,7 +98,7 @@ const CartItems = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete("https://lovoda-clone-eta.vercel.app/cart", {
+      .delete(`${process.env.REACT_APP_BACKEND_BASE_URL}/cart`, {
         data: {
           token,
           itemId: id,
@@ -113,7 +106,6 @@ const CartItems = () => {
       })
       .then((res) => {
         setToast("Item removed from cart", "removed from cart", "success");
-        console.log(res, "successfull");
         dispatch(getUsersData(token));
       })
       .catch((err) => {
@@ -289,13 +281,12 @@ const CartItems = () => {
               style={{
                 marginTop: "20px",
                 paddingLeft: "5px",
-                textAlign: "left",
                 fontSize: "14px",
                 fontWeight: "400",
                 textAlign: "right",
               }}
             >
-              Tax and <Link>shipping</Link> calculated at checkout
+              Tax and shipping calculated at checkout
             </div>
             <Button
               p={"10px"}

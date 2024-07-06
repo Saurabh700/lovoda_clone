@@ -72,7 +72,6 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
     if (token) {
       setToast(
         "Already Logged in",
@@ -98,9 +97,8 @@ const Login = () => {
     } else {
       dispatch({ type: USER_LOGIN_REQUEST });
       axios
-        .post("https://lovoda-clone-eta.vercel.app/account/login", form)
+        .post(`${process.env.REACT_APP_BACKEND_BASE_URL}/account/login`, form)
         .then((res) => {
-          console.log(res.data, "log");
           if (res.data.msg === "user not found") {
             setToast(
               "Email id not exist",
@@ -115,7 +113,6 @@ const Login = () => {
               "success"
             );
 
-            console.log(res.data.token);
             dispatch({
               type: USER_LOGIN_SUCCESS,
               payload: {

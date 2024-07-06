@@ -117,7 +117,5 @@ prods.sort((a, b) => b.price - a.price);
 
 setTimeout(() => {
   prods.sort((a, b) => a.price - b.price);
-  console.log(prods);
 }, 3000);
 
-console.log(prods);

@@ -46,8 +46,3 @@ let wish = [
   },
 ];
 
-wish.forEach((item) => {
-  if (item._id === obj._id) {
-    console.log("got it");
-  }
-});

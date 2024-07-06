@@ -24,6 +24,7 @@ razorpay.post("/create-order", async (req, res) => {
     if (!order) return res.status(500).send("Some error occured");
     res.send(order);
   } catch (error) {
+    console.log(error)
     res.status(500).send(error);
   }
 });
